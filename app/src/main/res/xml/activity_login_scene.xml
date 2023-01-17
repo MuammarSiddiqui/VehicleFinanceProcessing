@@ -18,25 +18,26 @@
         <Constraint
             android:id="@+id/imageView2"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="66dp"
-            android:layout_height="71dp"
+            android:layout_width="70dp"
+            android:layout_height="69dp"
             motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintVertical_bias="0.703"
-            motion:layout_constraintHorizontal_bias="0.255"
+            motion:layout_constraintVertical_bias="0.777"
+            motion:layout_constraintHorizontal_bias="0.092"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:transitionEasing="cubic(0.58,0.23,0.8,0.8)"
             android:rotationX="0"
             android:rotationY="0"
-            android:rotation="0" />
+            android:rotation="0"
+            motion:layout_editor_absoluteY="515dp" />
         <Constraint
             android:id="@+id/imageView4"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="217dp"
-            android:layout_height="191dp"
+            android:layout_width="176dp"
+            android:layout_height="143dp"
             motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintVertical_bias="0.914"
-            motion:layout_constraintHorizontal_bias="0.082"
+            motion:layout_constraintVertical_bias="0.993"
+            motion:layout_constraintHorizontal_bias="0.136"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:transitionEasing="cubic(0.58,0.23,0.8,0.8)"
@@ -70,24 +71,24 @@
             android:layout_width="wrap_content"
             motion:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
             android:id="@+id/Email"
-            motion:layout_constraintStart_toEndOf="@+id/Signup"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintVertical_bias="0.135"
             android:layout_marginLeft="80dp"
             android:layout_marginStart="80dp"
-            android:layout_marginBottom="420dp"
+            android:layout_marginBottom="372dp"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintHorizontal_bias="0.032" />
+            motion:layout_constraintHorizontal_bias="0.685"
+            motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/Password"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintTop_toBottomOf="@+id/Email"
-            motion:layout_constraintStart_toEndOf="@+id/Signup"
             motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintVertical_bias="0.13"
-            motion:layout_constraintHorizontal_bias="0.729" />
+            motion:layout_constraintVertical_bias="0.098"
+            motion:layout_constraintHorizontal_bias="0.81"
+            motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -96,6 +97,76 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="@+id/Email"
             motion:layout_constraintVertical_bias="0.088" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/Name"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toTopOf="@+id/Email"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.874"
+            motion:layout_constraintHorizontal_bias="0.81" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/ConfirmPassword"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/Password"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.143"
+            motion:layout_constraintHorizontal_bias="0.81" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/button"
+            motion:layout_constraintTop_toBottomOf="@+id/Password"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_bias="0.25"
+            motion:layout_constraintHorizontal_bias="0.703" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/ConfirmPassword"
+            android:id="@+id/button2"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.385"
+            motion:layout_constraintHorizontal_bias="0.656" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/Password"
+            android:id="@+id/loginsubmit"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintVertical_bias="0.213"
+            motion:layout_constraintHorizontal_bias="0.69" />
+        <Constraint
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/ConfirmPassword"
+            android:id="@+id/SignUpSubmit"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintVertical_bias="0.285"
+            motion:layout_constraintHorizontal_bias="0.694" />
+        <Constraint
+            motion:layout_constraintVertical_bias="0.218"
+            android:layout_height="wrap_content"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintHorizontal_bias="0.6"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:id="@+id/textView" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
