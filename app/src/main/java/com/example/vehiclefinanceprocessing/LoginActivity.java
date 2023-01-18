@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
                 Intent i2 = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(i2);
                 overridePendingTransition(R.anim.slide_in_up,  R.anim.slide_out_up);
+                finish();
+
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (emailerr == false && passerr == false){
                     Intent i2 = new Intent(LoginActivity.this, AdminHome.class);
                     startActivity(i2);
-                    overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+                    overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );                finish();
+                    finish();
+
                 }
             }
         });
@@ -86,5 +90,8 @@ public class LoginActivity extends AppCompatActivity {
     public void logoclicked(View v){
         v.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.myanim));
     }
-
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }

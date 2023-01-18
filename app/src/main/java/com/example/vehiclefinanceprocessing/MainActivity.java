@@ -22,5 +22,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         },4000);
+
+
+    }
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }
