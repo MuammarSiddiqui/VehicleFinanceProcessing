@@ -54,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
                 String ConfirmPasswordText = CPassword.getText().toString().trim();
 
                 if (validateForm(text,PasswordText,ConfirmPasswordText,N)){
-                    Intent i2 = new Intent(SignupActivity.this, AdminHome.class);
+                    Intent i2 = new Intent(SignupActivity.this, VehicleActivity.class);
                     startActivity(i2);
                     overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                     finish();
