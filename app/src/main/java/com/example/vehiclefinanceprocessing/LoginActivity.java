@@ -13,9 +13,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class LoginActivity extends AppCompatActivity {
     Button signupbutton ,login,loginsubmit;
     EditText email,password;
+    DatabaseReference db;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
         loginsubmit = findViewById(R.id.loginsubmit);
+        LoadingDialog loader = new LoadingDialog(LoginActivity.this);
         signupbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         loginsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loader.StartloadingDialog();
                 String text = email.getText().toString().trim();
                 String PasswordText = password.getText().toString().trim();
                 Boolean emailerr = false;
@@ -78,10 +88,41 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if (emailerr == false && passerr == false){
-                    Intent i2 = new Intent(LoginActivity.this, VehicleActivity.class);
-                    startActivity(i2);
-                    overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );                finish();
-                    finish();
+
+                    db = FirebaseDatabase.getInstance().getReference("User");
+                    Query query = db.orderByChild("emailAddress").equalTo(text);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                loader.dismissDialog();
+                                Users user = new Users();
+                                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                                    user = userSnapshot.getValue(Users.class);
+                                }
+                                if (user.getPassword().equals(password.getText().toString().trim())){
+                                    Intent i2 = new Intent(LoginActivity.this, VehicleActivity.class);
+                                    startActivity(i2);
+                                    overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+                                    finish();
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                loader.dismissDialog();
+                                Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            throw databaseError.toException(); // don't ignore errors
+                        }
+                    });
+
+
 
                 }
             }

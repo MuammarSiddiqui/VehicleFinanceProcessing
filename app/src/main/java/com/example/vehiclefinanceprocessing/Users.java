@@ -6,13 +6,24 @@ public class Users {
     private  String EmailAddress;
     private  String Password;
     private  String Role;
+    private  String Status;
 
-    public Users(String id, String name, String emailAddress, String password, String role) {
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public Users(String id, String name, String emailAddress, String password, String role, String status) {
         Id = id;
         Name = name;
         EmailAddress = emailAddress;
         Password = password;
         Role = role;
+        Status = status;
+
     }
 
     public Users() {

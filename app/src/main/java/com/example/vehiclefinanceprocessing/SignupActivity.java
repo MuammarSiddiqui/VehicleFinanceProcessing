@@ -46,6 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         SignUpSubmit = findViewById(R.id.SignUpSubmit);
         Password = findViewById(R.id.Password);
         CPassword = findViewById(R.id.ConfirmPassword);
+        LoadingDialog loader = new LoadingDialog(SignupActivity.this);
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +65,8 @@ public class SignupActivity extends AppCompatActivity {
         SignUpSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 SelectedRadio = radioGroup.getCheckedRadioButtonId();
                 String text = Email.getText().toString().trim();
                 String N = Name.getText().toString().trim();
@@ -74,6 +77,7 @@ public class SignupActivity extends AppCompatActivity {
                     db = FirebaseDatabase.getInstance().getReference("User");
                     String UniqueId = UUID.randomUUID().toString();
                 if (validateForm(text,PasswordText,ConfirmPasswordText,N)){
+                    loader.StartloadingDialog();
                     db = FirebaseDatabase.getInstance().getReference("User");
                     Query query = db.orderByChild("emailAddress").equalTo(text);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -81,15 +85,18 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
+                                loader.dismissDialog();
                                 Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_SHORT).show();
                             } else {
                                 Boolean adduser=  AddUserData(UniqueId,text,PasswordText,ConfirmPasswordText,N,radioButton.getText().toString().trim());
                                 if (adduser){
+                                    loader.dismissDialog();
                                     Intent i2 = new Intent(SignupActivity.this, VehicleActivity.class);
                                     startActivity(i2);
                                     overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                                     finish();
                                 }else {
+                                    loader.dismissDialog();
                                     Toast.makeText(SignupActivity.this, "Something Went Wrong", Toast.LENGTH_LONG).show();
                                 }
                             }
@@ -98,6 +105,7 @@ public class SignupActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+                            loader.dismissDialog();
                             throw databaseError.toException(); // don't ignore errors
                         }
                     });
@@ -114,7 +122,7 @@ public class SignupActivity extends AppCompatActivity {
     private boolean AddUserData(String Id,String text,
                                 String passwordText, String confirmPasswordText, String n,String role) {
            try {
-               Users user = new Users(Id,n,text,passwordText,role);
+               Users user = new Users(Id,n,text,passwordText,role,"Active");
                db.child(Id).setValue(user);
                return  true;
            }catch (Exception e){
