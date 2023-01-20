@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1013478822793",
+    "project_id": "vehiclefinanceprocessing",
+    "storage_bucket": "vehiclefinanceprocessing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013478822793:android:8b91c6b65e86d30f564758",
+        "android_client_info": {
+          "package_name": "com.example.vehiclefinanceprocessing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013478822793-b74auc5bqmgbdgaao7m19b0vdug5l9gr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPgUGrE4h8NHNmumo3DMga4rojiFBHFps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013478822793-b74auc5bqmgbdgaao7m19b0vdug5l9gr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

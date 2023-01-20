@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
@@ -38,10 +39,15 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        layout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.NavCars:
                 startActivity(new Intent(this,VehicleActivity.class));
-                overridePendingTransition(0,0);
+                overridePendingTransition(1,1);
+                break;
+            case R.id.NavUsers:
+                startActivity(new Intent(this,UsersActivity.class));
+                overridePendingTransition(1,1);
                 break;
         }
         return false;
