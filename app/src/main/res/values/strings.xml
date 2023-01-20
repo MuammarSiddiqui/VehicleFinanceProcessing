@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">VehicleFinanceProcessing</string>
+    <string name="app_name">MotorVehicleFinanceProcessing</string>
+    <string name="drawerOpen">Drawer Open</string>
+    <string name="drawerClosed">Drawer Closed</string>
 </resources>

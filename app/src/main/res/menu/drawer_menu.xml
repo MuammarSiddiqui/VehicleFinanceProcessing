@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/NavCars"
+            android:title="Cars"
+            android:icon="@drawable/car"/>
+        <item android:id="@+id/NavUsers"
+            android:title="Users"
+            android:icon="@drawable/user"/>
+        <item android:id="@+id/Dealer"
+            android:title="Dealers"
+            android:icon="@drawable/dealer"/>
+        <item android:id="@+id/NavApplications"
+            android:title="Applications"
+            android:icon="@drawable/applications"/>
+    </group>
+
+</menu>
