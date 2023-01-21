@@ -2,4 +2,6 @@
     <string name="app_name">MotorVehicleFinanceProcessing</string>
     <string name="drawerOpen">Drawer Open</string>
     <string name="drawerClosed">Drawer Closed</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
 </resources>

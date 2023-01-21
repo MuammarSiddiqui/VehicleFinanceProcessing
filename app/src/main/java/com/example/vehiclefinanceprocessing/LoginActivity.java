@@ -1,10 +1,13 @@
 package com.example.vehiclefinanceprocessing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_login);
         signupbutton = findViewById(R.id.Signup);
         login = findViewById(R.id.login);
@@ -68,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    loader.dismissDialog();
                     emailerr = true;
                     email.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.errorborder));
                     Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
@@ -75,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (PasswordText.length() < 8)
                 {
+                    loader.dismissDialog();
                     passerr = true;
                     password.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.errorborder));
                     password.setError("Minimun 8 characters Requires");
@@ -102,11 +108,20 @@ public class LoginActivity extends AppCompatActivity {
                                     user = userSnapshot.getValue(Users.class);
                                 }
                                 if (user.getPassword().equals(password.getText().toString().trim())){
-                                    Intent i2 = new Intent(LoginActivity.this, VehicleActivity.class);
+//                                   SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                                   SharedPreferences pref= getSharedPreferences("Users", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = pref.edit();
+                                    editor.putString("Id" ,user.getId());
+                                    editor.putString("Role" ,user.getRole());
+                                    editor.putString("Email" ,user.getEmailAddress());
+                                    editor.putString("Name",user.getRole());
+                                    editor.apply();
+                                   Intent i2 = new Intent(LoginActivity.this, VehicleActivity.class);
                                     startActivity(i2);
                                     overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                                     finish();
                                 }else{
+                                    loader.dismissDialog();
                                     Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -131,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     public void logoclicked(View v){
         v.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.myanim));
     }
+
 //    @Override
 //    public void onBackPressed() {
 //        return;
