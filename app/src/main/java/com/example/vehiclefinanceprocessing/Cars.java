@@ -5,9 +5,18 @@ public class Cars {
     private  String Name;
     private  int Image;
     private  String Milage;
+    private  String Price;
     private  String FuelType;
 
-    public Cars(String id, String name, int image, String milage, String fuelType, String description, String status) {
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
+    }
+
+    public Cars(String id, String name, int image, String milage, String fuelType, String description, String status, String price) {
         Id = id;
         Name = name;
         Image = image;
@@ -15,6 +24,7 @@ public class Cars {
         FuelType = fuelType;
         Description = description;
         Status = status;
+        Price = price;
     }
 
     public Cars() {

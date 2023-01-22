@@ -12,16 +12,26 @@ import androidx.appcompat.widget.ActionBarContextView;
 
 public class GridAdapter extends BaseAdapter {
     Context context;
+    String[] Id;
     String[] CarName;
     String[] CarPrice;
     int[] Images;
     LayoutInflater inflater;
 
-    public GridAdapter(Context context, String[] carName, String[] carPrice, int[] images) {
+    public String[] getId() {
+        return Id;
+    }
+
+    public void setId(String[] id) {
+        Id = id;
+    }
+
+    public GridAdapter(Context context, String[] carName, String[] carPrice, int[] images, String [] id) {
         this.context = context;
         CarName = carName;
         Images = images;
         CarPrice = carPrice;
+        Id =id;
     }
 
     @Override
