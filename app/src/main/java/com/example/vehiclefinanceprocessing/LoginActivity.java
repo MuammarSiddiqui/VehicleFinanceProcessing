@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     Button signupbutton ,login,loginsubmit;
+    TextInputLayout emaillayout,pwdlayout;
+
     EditText email,password;
     DatabaseReference db;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -33,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_login);
+        emaillayout = findViewById(R.id.emailayout);
+        pwdlayout = findViewById(R.id.PasswordLayout);
         signupbutton = findViewById(R.id.Signup);
         login = findViewById(R.id.login);
         email = findViewById(R.id.Email);
@@ -67,14 +72,16 @@ public class LoginActivity extends AppCompatActivity {
                 if (text.matches(emailPattern))
                 {
                     emailerr = false;
-                    email.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.inputbordershape));
+                    emaillayout.setError(null);
                     email.setError(null);
                 }
                 else
                 {
                     loader.dismissDialog();
                     emailerr = true;
-                    email.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.errorborder));
+
+                    emaillayout.setError("Invalid Email Address");
+
                     Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
                     email.setError("Enter a valid Email");
                 }
@@ -82,14 +89,16 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     loader.dismissDialog();
                     passerr = true;
-                    password.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.errorborder));
-                    password.setError("Minimun 8 characters Requires");
-                    Toast.makeText(LoginActivity.this,"Enter a valid Password",Toast.LENGTH_LONG).show();
+                    pwdlayout.setError("Atleast 8 letters required");
+
+                    password.setError("Minimun 8 characters Required");
+
                 }
                 else
                 {
                     passerr = false;
-                    password.setBackground( ContextCompat.getDrawable(LoginActivity.this, R.drawable.inputbordershape));
+                    pwdlayout.setError(null);
+
                     password.setError(null);
                 }
 

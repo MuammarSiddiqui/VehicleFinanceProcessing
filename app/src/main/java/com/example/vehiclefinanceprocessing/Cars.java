@@ -1,9 +1,11 @@
 package com.example.vehiclefinanceprocessing;
 
+import android.net.Uri;
+
 public class Cars {
     private  String Id;
     private  String Name;
-    private  int Image;
+    private String Image;
     private  String Milage;
     private  String Price;
     private  String FuelType;
@@ -16,7 +18,7 @@ public class Cars {
         Price = price;
     }
 
-    public Cars(String id, String name, int image, String milage, String fuelType, String description, String status, String price) {
+    public Cars(String id, String name, String image, String milage, String fuelType, String description, String status, String price) {
         Id = id;
         Name = name;
         Image = image;
@@ -46,11 +48,11 @@ public class Cars {
         Name = name;
     }
 
-    public int getImage() {
+    public String getImage() {
         return Image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         Image = image;
     }
 

@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +34,8 @@ public class SignupActivity extends AppCompatActivity {
     DatabaseReference db ;
     RadioGroup radioGroup;
     RadioButton radioButton;
+    TextInputLayout emaillayout,pwdlayout,cpwdlayout,namelayout;
+
     int SelectedRadio;
     Button loginbtn,signup,SignUpSubmit;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -47,6 +50,10 @@ public class SignupActivity extends AppCompatActivity {
         signup = findViewById(R.id.Signup);
         Email = findViewById(R.id.Email);
         Name = findViewById(R.id.Name);
+        emaillayout = findViewById(R.id.EmailLayout);
+        pwdlayout = findViewById(R.id.PwdLayout);
+        cpwdlayout = findViewById(R.id.ConfirmPasswordLayout);
+        namelayout = findViewById(R.id.namelayout);
         SignUpSubmit = findViewById(R.id.SignUpSubmit);
         Password = findViewById(R.id.Password);
         CPassword = findViewById(R.id.ConfirmPassword);
@@ -90,7 +97,7 @@ public class SignupActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 loader.dismissDialog();
-                                Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
                             } else {
                                 Boolean adduser=  AddUserData(UniqueId,text,PasswordText,ConfirmPasswordText,N,radioButton.getText().toString().trim());
                                 if (adduser){
@@ -117,7 +124,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
                 }
-
 
             }
         });
@@ -150,12 +156,12 @@ public class SignupActivity extends AppCompatActivity {
         int a = 0;
         if (text.matches(emailPattern))
         {
-            Email.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.inputbordershape));
+            emaillayout.setError(null);
             Email.setError(null);
         }
         else
         {
-            Email.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.errorborder));
+            emaillayout.setError("Invalid Email Address");
             Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
             Email.setError("Enter a valid Email");
             a+=1;
@@ -163,35 +169,36 @@ public class SignupActivity extends AppCompatActivity {
         if (PasswordText.length() < 8)
         {
             a+=1;
-            Password.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.errorborder));
+            pwdlayout.setError("Minimum 8 characters required");
             Password.setError("Minimun 8 characters Requires");
-            Toast.makeText(SignupActivity.this,"Enter a valid Password",Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(SignupActivity.this,"Enter a valid Password",Toast.LENGTH_SHORT).show();
         }
         else
         {
-            Password.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.inputbordershape));
+           pwdlayout.setError(null);
             Password.setError(null);
         }
         if (!PasswordText.equals(ConfirmPasswordText)){
             a+=1;
-            CPassword.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.errorborder));
+
             if (CPassword.length() ==0){
+                cpwdlayout.setError("Confirm Password is required");
                 CPassword.setError("Confirm Password is required");
             }else{
+                cpwdlayout.setError("Confirm password doesn't match");
                 CPassword.setError("Confirm Password Doesn't Match");
             }
-            Toast.makeText(SignupActivity.this,"Confirm Password Doesn't Match",Toast.LENGTH_SHORT).show();
         }else{
-            CPassword.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.inputbordershape));
+            cpwdlayout.setError(null);
             CPassword.setError(null);
         }
         if (N.length() < 3){
             a+=1;
-            Name.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.errorborder));
-            Name.setError("Confirm Password Doesn't Match");
-            Toast.makeText(SignupActivity.this,"Confirm Password Doesn't Match",Toast.LENGTH_SHORT).show();
+            namelayout.setError("Enter a valid Name");
+            Name.setError("Minimum 3 chracters are requires");
+           // Toast.makeText(SignupActivity.this,"Confirm Password Doesn't Match",Toast.LENGTH_SHORT).show();
         }else{
-            Name.setBackground( ContextCompat.getDrawable(SignupActivity.this, R.drawable.inputbordershape));
+            namelayout.setError(null);
             Name.setError(null);
         }
         if (radioButton == null){
