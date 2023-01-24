@@ -1,5 +1,6 @@
 package com.example.vehiclefinanceprocessing;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,13 +32,18 @@ import com.example.vehiclefinanceprocessing.databinding.ActivityVehicleBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 public class VehicleActivity extends DrawerBaseActivity {
@@ -48,14 +55,20 @@ public class VehicleActivity extends DrawerBaseActivity {
     AlertDialog dialog;
     Uri ImageUri;
     AlertDialog.Builder builder;
-    DatabaseReference db=FirebaseDatabase.getInstance().getReference().child("Cars");
+    DatabaseReference db=FirebaseDatabase.getInstance().getReference("Cars");
     StorageReference storage= FirebaseStorage.getInstance().getReference();
     FloatingActionButton fb;
     String[] choises ={"Edit Item","View Item"};
     LoadingDialog loader;
+
+    ArrayList<Cars> arr = new ArrayList<>();
+    CarsListAdapter myadp;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         activityBinding =gridBinding=ActivityVehicleBinding.inflate(getLayoutInflater());
 
         setContentView(activityBinding.getRoot());
@@ -70,21 +83,16 @@ public class VehicleActivity extends DrawerBaseActivity {
         imgSlider.setImageList(images, ScaleTypes.CENTER_CROP);
 
 
-        String[] carnames={"Civic","Vigo","BMW","Civic","Vigo","BMW"};
-        String[] carIds={"IdCivic","IdVigo","IdBMW","IdCivic","IdVigo","IdBMW"};
-        String[] carPrice={"800000","1000000","1200000","800000","1000000","1200000"};
-
-        int[] Carimages = {R.mipmap.slider1,R.mipmap.slider2,R.mipmap.slider3,R.mipmap.slider1,R.mipmap.slider2,R.mipmap.slider3};
-        GridAdapter adapter = new GridAdapter(VehicleActivity.this,carnames,carPrice,Carimages,carIds);
-        gridBinding.CarGridView.setAdapter(adapter);
+        myadp  = new CarsListAdapter(VehicleActivity.this,arr);
+        gridBinding.CarGridView.setAdapter(myadp);
+        
+        GetData();
         gridBinding.CarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 builder =new AlertDialog.Builder(VehicleActivity.this);
-                builder.setTitle(carnames[i]+" selected");
-                builder.setIcon(Carimages[i]);
-
+                builder.setTitle(arr.get(i).getName() +" selected");
 
                 builder.setSingleChoiceItems(choises, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -206,7 +214,7 @@ public class VehicleActivity extends DrawerBaseActivity {
                         }
                     });
                 }
-                
+
             });
             return true;
         }catch (Exception ex){
@@ -229,6 +237,27 @@ return false;
             img.setImageURI(ImageUri);
         }
     }
+ private void GetData(){
+   db.addValueEventListener(new ValueEventListener() {
+
+       @Override
+       public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+           for (DataSnapshot ds : snapshot.getChildren()){
+               Cars car = ds.getValue(Cars.class);
+               arr.add(car);
+               myadp.notifyDataSetChanged();
+           }
+       }
+
+       @Override
+       public void onCancelled(@NonNull DatabaseError error) {
+           Toast.makeText(VehicleActivity.this, "Error", Toast.LENGTH_SHORT).show();
+       }
+   });
+ }
+
+
 
     @Override
     public void onBackPressed() {
