@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.concurrent.TimeUnit;
 
 public class DrawerBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,15 +49,30 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         layout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.NavCars:
+
                 startActivity(new Intent(this,VehicleActivity.class));
-                overridePendingTransition(1,1);
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                 break;
             case R.id.NavUsers:
+
                 startActivity(new Intent(this,UsersActivity.class));
-                overridePendingTransition(1,1);
+
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+                break;
+            case R.id.NavApplications:
+
+                startActivity(new Intent(this,ApplicationActivity.class));
+
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+
+                break;
+            case R.id.NavDealers:
+                startActivity(new Intent(this,DealersActivity.class));
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                 break;
             case R.id.NavLogout:
                 builder = new AlertDialog.Builder(DrawerBaseActivity.this);

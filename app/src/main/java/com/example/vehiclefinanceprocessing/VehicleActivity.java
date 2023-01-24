@@ -73,6 +73,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         String[] carnames={"Civic","Vigo","BMW","Civic","Vigo","BMW"};
         String[] carIds={"IdCivic","IdVigo","IdBMW","IdCivic","IdVigo","IdBMW"};
         String[] carPrice={"800000","1000000","1200000","800000","1000000","1200000"};
+
         int[] Carimages = {R.mipmap.slider1,R.mipmap.slider2,R.mipmap.slider3,R.mipmap.slider1,R.mipmap.slider2,R.mipmap.slider3};
         GridAdapter adapter = new GridAdapter(VehicleActivity.this,carnames,carPrice,Carimages,carIds);
         gridBinding.CarGridView.setAdapter(adapter);
@@ -125,7 +126,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         EditText carDescription = dialog.findViewById(R.id.txtCarDescription);
         EditText carMilage = dialog.findViewById(R.id.txtCarMilage);
         EditText carType = dialog.findViewById(R.id.txtCarType);
-        img= dialog.findViewById(R.id.carImageButton);
+        img = dialog.findViewById(R.id.carImageButton);
         Button btnSubmit =dialog.findViewById(R.id.btnSubmit);
         Button btnCancel =dialog.findViewById(R.id.btnCancel);
         img.setOnClickListener(new View.OnClickListener() {
@@ -139,33 +140,40 @@ public class VehicleActivity extends DrawerBaseActivity {
         });
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
-            String name = carName.getText().toString().trim();
-            String price = carPrice.getText().toString().trim();
-            String description = carDescription.getText().toString().trim();
-            String milage = carMilage.getText().toString().trim();
-            String cartype = carType.getText().toString().trim();
             @Override
             public void onClick(View view) {
-               if(name.length()==0){
+                String name = carName.getText().toString().trim();
+                String price = carPrice.getText().toString().trim();
+                String description = carDescription.getText().toString().trim();
+                String milage = carMilage.getText().toString().trim();
+                String cartype = carType.getText().toString().trim();
+                boolean nameErr = false, priceErr = false, imageErr = false;
+               if(name.equals("")){
                    carName.setError("Car name is required");
-                   Toast.makeText(VehicleActivity.this, "Name is required", Toast.LENGTH_SHORT).show();
+                   nameErr = false;
                }else{
                    carName.setError(null);
+                   nameErr = true;
                }
-               if (price.length() ==0){
+               if (price.equals("")){
                    carPrice.setError("Car price is required");
-                   Toast.makeText(VehicleActivity.this, "price is required", Toast.LENGTH_SHORT).show();
+                   priceErr = false;
                }else{
                    carPrice.setError(null);
-               }if(ImageUri == null){
-                    Toast.makeText(VehicleActivity.this, "Please select image", Toast.LENGTH_SHORT).show();
-                }
-               if(name.length()>0 && carPrice.length()>0 && ImageUri != null){
+                   priceErr = true;
+               }
+               if(ImageUri == null){
+                   imageErr = false;
+               } else {
+                   imageErr = true;
+               }
+               if((nameErr && priceErr && imageErr) == true){
                    String UniqueId = UUID.randomUUID().toString();
                    loader.StartloadingDialog();
                    Boolean check = AddData(UniqueId,name,price,description,milage,cartype,ImageUri);
                    if (check){
                        loader.dismissDialog();
+                       dialog.dismiss();
                        Toast.makeText(VehicleActivity.this, "Data Added Succesfully", Toast.LENGTH_SHORT).show();
                    }else{
                        Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();

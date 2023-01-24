@@ -16,6 +16,12 @@
         android:theme="@style/Theme.VehicleFinanceProcessing"
         tools:targetApi="31">
         <activity
+            android:name=".ApplicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DealersActivity"
+            android:exported="false" />
+        <activity
             android:name=".UsersActivity"
             android:exported="false" />
         <activity

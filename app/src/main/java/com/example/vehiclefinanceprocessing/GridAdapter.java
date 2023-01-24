@@ -59,9 +59,12 @@ public class GridAdapter extends BaseAdapter {
         ImageView imageview = view.findViewById(R.id.carImage);
         TextView name= view.findViewById(R.id.carName);
         TextView price= view.findViewById(R.id.carPrice);
+        imageview.setId(Images[i]);
         imageview.setImageResource(Images[i]);
         name.setText(CarName[i]);
         price.setText(CarPrice[i]);
     return  view;
     }
+
+
 }

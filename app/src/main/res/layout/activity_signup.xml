@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/signup_bg"
+    android:background="@mipmap/signupbg"
     tools:context=".SignupActivity">
 
 
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SignUp"
-        android:textColor="@color/white"
+        android:textColor="@color/purple_500"
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,16 +72,16 @@
         android:id="@+id/namelayout"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        android:textColorHint="@color/cream"
+        android:textColorHint="@color/purple_500"
         app:helperText="Enter Name "
         app:counterMaxLength="50"
         app:counterEnabled="true"
         android:inputType="textPersonName"
         android:layout_height="wrap_content"
-        app:counterTextColor="@color/white"
-        app:helperTextTextColor="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:hintTextColor="@color/white"
+        app:counterTextColor="@color/purple_500"
+        app:helperTextTextColor="@color/purple_500"
+        app:boxStrokeColor="@color/purple_500"
+        app:hintTextColor="@color/purple_500"
         android:layout_width="200dp"
         android:hint="Enter Your Name"
 
@@ -100,7 +100,7 @@
             android:inputType="textPersonName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_500"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -110,20 +110,20 @@
         android:id="@+id/EmailLayout"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        android:textColorHint="@color/cream"
+        android:textColorHint="@color/purple_500"
         app:helperText="Enter Email "
         app:counterMaxLength="50"
         app:counterEnabled="true"
         android:inputType="textEmailAddress"
         android:layout_height="wrap_content"
-        app:counterTextColor="@color/white"
-        app:helperTextTextColor="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:hintTextColor="@color/white"
+        app:counterTextColor="@color/purple_500"
+        app:helperTextTextColor="@color/purple_500"
+        app:boxStrokeColor="@color/purple_500"
+        app:hintTextColor="@color/purple_500"
         android:layout_width="200dp"
         android:hint="Enter Your Email"
 
-        android:textColor="@color/white"
+        android:textColor="@color/purple_500"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +138,7 @@
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_500"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -148,20 +148,19 @@
         android:id="@+id/PwdLayout"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        android:textColorHint="@color/cream"
+        android:textColorHint="@color/purple_500"
         app:helperText="Enter Password "
         app:counterMaxLength="50"
         app:counterEnabled="true"
         android:inputType="textPassword"
         android:layout_height="wrap_content"
-        app:counterTextColor="@color/white"
-        app:helperTextTextColor="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:hintTextColor="@color/white"
+        app:counterTextColor="@color/purple_500"
+        app:helperTextTextColor="@color/purple_500"
+        app:boxStrokeColor="@color/purple_500"
+        app:hintTextColor="@color/purple_500"
         android:layout_width="200dp"
         android:hint="Enter Your Password"
-
-        android:textColor="@color/white"
+        android:textColor="@color/purple_500"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/EmailLayout"
@@ -176,7 +175,7 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_500"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -186,16 +185,16 @@
         android:id="@+id/ConfirmPasswordLayout"
         app:endIconMode="password_toggle"
         app:errorEnabled="true"
-        android:textColorHint="@color/cream"
+        android:textColorHint="@color/purple_500"
         app:helperText="Re Enter Password "
         app:counterMaxLength="50"
         app:counterEnabled="true"
         android:inputType="textPassword"
         android:layout_height="wrap_content"
-        app:counterTextColor="@color/white"
-        app:helperTextTextColor="@color/white"
-        app:boxStrokeColor="@color/white"
-        app:hintTextColor="@color/white"
+        app:counterTextColor="@color/purple_500"
+        app:helperTextTextColor="@color/purple_500"
+        app:boxStrokeColor="@color/purple_500"
+        app:hintTextColor="@color/purple_500"
         android:layout_width="200dp"
         android:hint="Re Enter Your Password"
 
@@ -214,7 +213,7 @@
             android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/purple_500"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -227,7 +226,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="SignUp as"
-        android:textColor="@color/cream"
+        android:textColor="@color/purple_500"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="@+id/ConfirmPasswordLayout"
@@ -262,8 +261,9 @@
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/purple_500"
                 android:paddingEnd="5dp"
+
                 android:text="User"
-                android:textColor="@color/white"
+                android:textColor="@color/purple_500"
                 android:textSize="12sp" />
 
             <RadioButton
@@ -273,7 +273,7 @@
                 android:buttonTint="@color/purple_500"
                 android:paddingEnd="5dp"
                 android:text="Dealer"
-                android:textColor="@color/white"
+                android:textColor="@color/purple_500"
                 android:textSize="12sp" />
 
         </RadioGroup>
@@ -284,9 +284,9 @@
         android:id="@+id/SignUpSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/light"
+        android:backgroundTint="@color/purple_500"
         android:text="Sign up"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/ConfirmPasswordLayout"
         app:layout_constraintStart_toStartOf="@+id/ConfirmPasswordLayout"

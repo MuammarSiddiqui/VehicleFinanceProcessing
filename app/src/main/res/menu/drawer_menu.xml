@@ -8,7 +8,7 @@
         <item android:id="@+id/NavUsers"
             android:title="Users"
             android:icon="@drawable/user"/>
-        <item android:id="@+id/Dealer"
+        <item android:id="@+id/NavDealers"
             android:title="Dealers"
             android:icon="@drawable/dealer"/>
         <item android:id="@+id/NavApplications"
