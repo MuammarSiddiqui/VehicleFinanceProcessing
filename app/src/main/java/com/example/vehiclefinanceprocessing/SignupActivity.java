@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity {
     private boolean AddUserData(String Id,String text,
                                 String passwordText, String confirmPasswordText, String n,String role) {
            try {
-               Users user = new Users(Id,n,text,passwordText,role,"Active");
+               Users user = new Users(Id,n,text,passwordText,role,"Active","");
                db.child(Id).setValue(user);
 //               SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(SignupActivity.this);
                SharedPreferences pref= getSharedPreferences("Users", MODE_PRIVATE);

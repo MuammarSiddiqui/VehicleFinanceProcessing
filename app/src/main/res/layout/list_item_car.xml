@@ -19,7 +19,6 @@
         android:layout_height="80dp"
         android:id="@+id/carImage"
         android:src="@mipmap/bgscreen"
-        android:scaleType="centerCrop"
         />
     <TextView
         android:layout_width="wrap_content"

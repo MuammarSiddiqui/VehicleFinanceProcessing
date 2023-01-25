@@ -117,7 +117,7 @@ public class VehicleActivity extends DrawerBaseActivity {
             public void onClick(View view) {
 
                 showAddCarDialog();
-                Toast.makeText(VehicleActivity.this, "Fb was clicked", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(VehicleActivity.this, "Fb was clicked", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -243,10 +243,12 @@ return false;
        @Override
        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+               arr.clear();
            for (DataSnapshot ds : snapshot.getChildren()){
                Cars car = ds.getValue(Cars.class);
                arr.add(car);
                myadp.notifyDataSetChanged();
+
            }
        }
 

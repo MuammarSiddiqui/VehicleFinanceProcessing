@@ -1,39 +1,27 @@
 package com.example.vehiclefinanceprocessing;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-public class CarsListAdapter extends BaseAdapter {
-
-
+public class UsersListAdapter extends BaseAdapter {
     Context context;
 
 
-    ArrayList<Cars> arr= new ArrayList<>();
-
-    public CarsListAdapter(Context context, ArrayList<Cars> arr) {
+    public UsersListAdapter(Context context, ArrayList<Users> arr) {
         this.context = context;
         this.arr = arr;
     }
+
+    ArrayList<Users> arr= new ArrayList<>();
     @Override
     public int getCount() {
         return arr.size();
@@ -51,23 +39,23 @@ public class CarsListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view = LayoutInflater.from(context).inflate(R.layout.list_item_car,null);
-        TextView price,name;
+        view = LayoutInflater.from(context).inflate(R.layout.dealerlistlayout,null);
+        TextView name,email;
         ImageView imageView ;
 
-        price = view.findViewById(R.id.carPrice);
-        name = view.findViewById(R.id.carName);
-        imageView = view.findViewById(R.id.carImage);
-        price.setText(arr.get(i).getPrice());
+        name = view.findViewById(R.id.DealerName);
+        email = view.findViewById(R.id.DealerEmail);
+        imageView = view.findViewById(R.id.DealerImage);
         name.setText(arr.get(i).getName());
+        email.setText(arr.get(i).getEmailAddress());
         String url = arr.get(i).getImage();
 
-        Picasso.get().load(url).into(imageView);
+        if (!url.equals("") && !url.equals(null)){
+            Picasso.get().load(url).into(imageView);
+        }else {
+            imageView.setImageResource(R.drawable.usericon);
+        }
         return view;
     }
-
-
-
-
 
 }

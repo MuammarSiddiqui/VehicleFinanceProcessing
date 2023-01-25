@@ -7,6 +7,15 @@ public class Users {
     private  String Password;
     private  String Role;
     private  String Status;
+    private String Image;
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
 
     public String getStatus() {
         return Status;
@@ -16,13 +25,14 @@ public class Users {
         Status = status;
     }
 
-    public Users(String id, String name, String emailAddress, String password, String role, String status) {
+    public Users(String id, String name, String emailAddress, String password, String role, String status,String image) {
         Id = id;
         Name = name;
         EmailAddress = emailAddress;
         Password = password;
         Role = role;
         Status = status;
+        Image = image;
 
     }
 
