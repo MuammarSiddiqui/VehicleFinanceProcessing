@@ -1,9 +1,11 @@
 package com.example.vehiclefinanceprocessing;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     Button signupbutton ,login,loginsubmit;
     TextInputLayout emaillayout,pwdlayout;
+    AlertDialog dialog;
+    AlertDialog.Builder builder;
+    int a= 0;
 
     EditText email,password;
     DatabaseReference db;
@@ -156,8 +161,8 @@ public class LoginActivity extends AppCompatActivity {
         v.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.myanim));
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        return;
-//    }
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }

@@ -62,7 +62,7 @@ public class DealersActivity extends DrawerBaseActivity {
                 arr.clear();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     Users user = ds.getValue(Users.class);
-                    if (user.getRole().equals("Dealer")){
+                    if (user.getRole().equals("Dealer") && user.getStatus().equals("Active")){
                         arr.add(user);
                        myadp.notifyDataSetChanged();
                     }
