@@ -102,6 +102,7 @@ public class VehicleActivity extends DrawerBaseActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (choises[i]){
                             case "View Item":
+                                dialog.dismiss();
                                 showSingleCarDialog(i);
                         }
                     }
@@ -213,7 +214,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         dialog.setContentView(R.layout.car_view_layout);
         TextView carName = dialog.findViewById(R.id.SingleCarViewName);
         TextView carPrice = dialog.findViewById(R.id.SingleCarPrice);
-        TextView carDescription = dialog.findViewById(R.id.txtCarDescription);
+        TextView carDescription = dialog.findViewById(R.id.SingleCarDescription);
         TextView carMilage = dialog.findViewById(R.id.SingleCarViewMilage);
         TextView carType = dialog.findViewById(R.id.SingleCarViewType);
         iview = dialog.findViewById(R.id.SingleCarViewImage);
@@ -233,6 +234,7 @@ public class VehicleActivity extends DrawerBaseActivity {
             Dialog d=new Dialog(VehicleActivity.this);
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 builder = new AlertDialog.Builder(VehicleActivity.this);
                 builder.setTitle("Are you sure want to delete??");
                 builder.setIcon(R.drawable.logo);

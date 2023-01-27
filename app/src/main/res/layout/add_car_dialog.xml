@@ -180,8 +180,9 @@
                        android:id="@+id/btnCancel"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:background="#FF0000"
-                       android:textColor="@color/white"
+                       android:textColor="@color/purple_500"
+                       android:background="@drawable/btnshape"
+                       android:backgroundTint="@color/white"
                        android:text="Cancel"/>
                </LinearLayout>
                <LinearLayout
@@ -193,8 +194,9 @@
                        android:id="@+id/btnSubmit"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:background="@color/purple_500"
                        android:textColor="@color/white"
+                       android:background="@drawable/btnshape"
+                       android:backgroundTint="@color/purple_500"
                        android:text="Add Car"/>
                </LinearLayout>
            </LinearLayout>

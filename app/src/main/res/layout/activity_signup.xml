@@ -224,7 +224,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="6dp"
         android:text="SignUp as"
         android:textColor="@color/purple_500"
         android:textSize="20dp"
@@ -246,7 +246,7 @@
         app:layout_constraintHorizontal_bias="0.875"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ConfirmPasswordLayout"
-        app:layout_constraintVertical_bias="0.173">
+        app:layout_constraintVertical_bias="0.153">
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -284,9 +284,10 @@
         android:id="@+id/SignUpSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/purple_500"
         android:text="Sign up"
         android:textColor="@color/white"
+        android:background="@drawable/btnshape"
+        android:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/ConfirmPasswordLayout"
         app:layout_constraintStart_toStartOf="@+id/ConfirmPasswordLayout"
