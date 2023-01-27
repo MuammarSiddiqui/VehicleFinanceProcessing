@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class VehicleActivity extends DrawerBaseActivity {
     ActivityVehicleBinding gridBinding;
     ImageSlider imgSlider ;
     ImageButton img;
+    ImageView iview;
     AlertDialog dialog;
     Uri ImageUri;
     AlertDialog.Builder builder;
@@ -97,7 +100,10 @@ public class VehicleActivity extends DrawerBaseActivity {
                 builder.setSingleChoiceItems(choises, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(VehicleActivity.this, choises[i]+"was clicked", Toast.LENGTH_SHORT).show();
+                        switch (choises[i]){
+                            case "View Item":
+                                showSingleCarDialog(i);
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -189,6 +195,62 @@ public class VehicleActivity extends DrawerBaseActivity {
                }
 
 
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void showSingleCarDialog(int i) {
+        final Dialog dialog= new Dialog(VehicleActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.car_view_layout);
+        TextView carName = dialog.findViewById(R.id.SingleCarViewName);
+        TextView carPrice = dialog.findViewById(R.id.SingleCarPrice);
+        TextView carDescription = dialog.findViewById(R.id.txtCarDescription);
+        TextView carMilage = dialog.findViewById(R.id.SingleCarViewMilage);
+        TextView carType = dialog.findViewById(R.id.SingleCarViewType);
+        iview = dialog.findViewById(R.id.SingleCarViewImage);
+        Button btnCancel =dialog.findViewById(R.id.btnSingleCarCancel);
+        Button btnDelete =dialog.findViewById(R.id.btnSingleCarDelete);
+
+        carName.setText(arr.get(i).getName());
+        carPrice.setText(arr.get(i).getPrice());
+        carDescription.setText(arr.get(i).getDescription());
+        carMilage.setText(arr.get(i).getMilage());
+        carType.setText(arr.get(i).getFuelType());
+        Picasso.get().load(arr.get(i).getImage()).into(iview);
+
+
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            Dialog d=new Dialog(VehicleActivity.this);
+            @Override
+            public void onClick(View view) {
+                builder = new AlertDialog.Builder(VehicleActivity.this);
+                builder.setTitle("Are you sure want to delete??");
+                builder.setIcon(R.drawable.logo);
+                builder.setCancelable(true);
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(VehicleActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        d.dismiss();
+                    }
+                });
+                d = builder.create();
+                d.show();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
