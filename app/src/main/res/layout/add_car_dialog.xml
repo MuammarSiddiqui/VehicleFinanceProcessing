@@ -23,6 +23,7 @@
            android:orientation="vertical"
            android:padding="10dp">
            <TextView
+               android:id="@+id/twHeading"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:text="Add New Car"
@@ -32,11 +33,11 @@
                android:textSize="18sp"
                android:layout_marginBottom="20dp"
                />
-           <ImageButton
-               android:id="@+id/carImageButton"
+           <ImageView
+               android:id="@+id/carImageView"
                android:layout_width="150dp"
                android:layout_height="80dp"
-               android:background="@mipmap/car"/>
+               android:src="@mipmap/car"/>
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
