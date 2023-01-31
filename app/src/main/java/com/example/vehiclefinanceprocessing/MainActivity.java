@@ -19,17 +19,14 @@ public class MainActivity extends AppCompatActivity {
         String Id = (shared.getString("Id", ""));
         String Role = (shared.getString("Role", ""));
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (Role != "" && Id !=  ""){
+        new Handler().postDelayed(() -> {
+            if (!Role.equals("") && !Id.equals("")){
 
-                startActivity(new Intent(MainActivity.this,VehicleActivity.class));
+            startActivity(new Intent(MainActivity.this,VehicleActivity.class));
+            finish();
+            }else{
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
                 finish();
-                }else{
-                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                    finish();
-                }
             }
         },4000);
 

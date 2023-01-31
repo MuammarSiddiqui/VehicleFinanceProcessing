@@ -1,25 +1,15 @@
 package com.example.vehiclefinanceprocessing;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class CarsListAdapter extends BaseAdapter {
@@ -28,7 +18,7 @@ public class CarsListAdapter extends BaseAdapter {
     Context context;
 
 
-    ArrayList<Cars> arr= new ArrayList<>();
+    ArrayList<Cars> arr;
 
     public CarsListAdapter(Context context, ArrayList<Cars> arr) {
         this.context = context;
@@ -49,6 +39,7 @@ public class CarsListAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint({"ViewHolder", "InflateParams"})
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(context).inflate(R.layout.list_item_car,null);

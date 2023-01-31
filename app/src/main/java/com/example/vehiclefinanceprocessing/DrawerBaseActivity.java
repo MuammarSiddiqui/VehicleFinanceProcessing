@@ -7,20 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.concurrent.TimeUnit;
 
 public class DrawerBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,6 +24,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
     AlertDialog dialog;
     AlertDialog.Builder builder;
 
+    @SuppressLint("InflateParams")
     @Override
     public void setContentView(View view) {
 
@@ -47,6 +44,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         toogle.syncState();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -77,28 +75,18 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
             case R.id.NavLogout:
                 builder = new AlertDialog.Builder(DrawerBaseActivity.this);
                 builder.setTitle("Are you sure want to logout??");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(DrawerBaseActivity.this);
-//                        SharedPreferences.Editor editor = pref.edit();
-                        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = shared.edit();
-                        editor.putString("Id" ,"");
-                        editor.putString("Role" ,"");
-                        editor.putString("Email" ,"");
-                        editor.putString("Name","");
-                        editor.apply();
-                        startActivity(new Intent(DrawerBaseActivity.this,LoginActivity.class));
-                        overridePendingTransition(1,1);
-                    }
+                builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+                    SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = shared.edit();
+                    editor.putString("Id" ,"");
+                    editor.putString("Role" ,"");
+                    editor.putString("Email" ,"");
+                    editor.putString("Name","");
+                    editor.apply();
+                    startActivity(new Intent(DrawerBaseActivity.this,LoginActivity.class));
+                    overridePendingTransition(1,1);
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
+                builder.setNegativeButton("No", (dialogInterface, i) -> dialog.dismiss());
                 dialog = builder.create();
                 dialog.show();
                 break;

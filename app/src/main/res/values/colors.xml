@@ -7,4 +7,6 @@
     <color name="cream">#fff</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Danger">#FFFF0000</color>
+    <color name="Active">#05A50E</color>
 </resources>

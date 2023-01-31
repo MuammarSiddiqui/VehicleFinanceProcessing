@@ -1,6 +1,5 @@
 package com.example.vehiclefinanceprocessing;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 

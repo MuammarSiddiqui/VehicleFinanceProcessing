@@ -6,12 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 public class ContentActivity extends AppCompatActivity {
 
 
@@ -25,7 +19,7 @@ public class ContentActivity extends AppCompatActivity {
 
         String Id = (shared.getString("Id", ""));
         String Role = (shared.getString("Role", ""));
-        if (Id == null && Role == null){
+        if (Id.equals("") && Role.equals("")){
             startActivity(new Intent(ContentActivity.this, LoginActivity.class));
             finish();
         }

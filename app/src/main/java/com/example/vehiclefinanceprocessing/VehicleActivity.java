@@ -3,25 +3,19 @@ package com.example.vehiclefinanceprocessing;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.Window;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Gallery;
-import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +24,6 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.vehiclefinanceprocessing.databinding.ActivityVehicleBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,12 +32,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 
 public class VehicleActivity extends DrawerBaseActivity {
@@ -90,47 +79,35 @@ public class VehicleActivity extends DrawerBaseActivity {
         gridBinding.CarGridView.setAdapter(myadp);
         
         GetData();
-        gridBinding.CarGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        gridBinding.CarGridView.setOnItemClickListener((adapterView, view, i, l) -> {
 
-                builder =new AlertDialog.Builder(VehicleActivity.this);
-                builder.setTitle(arr.get(i).getName() +" selected");
-
-                builder.setSingleChoiceItems(choises, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int j) {
-                        switch (choises[j]){
-                            case "View Item":
-                                dialog.dismiss();
-                                showSingleCarDialog(i);
-                                break;
-                            case "Edit Item":
-                                dialog.dismiss();
-                                showEditCarDialog(i);
-                        }
+            SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+            String Role = (shared.getString("Role", ""));
+            if(Role.equals("Admin")){
+            builder =new AlertDialog.Builder(VehicleActivity.this);
+            builder.setTitle(arr.get(i).getName() +" selected");
+                builder.setSingleChoiceItems(choises, -1, (dialogInterface, j) -> {
+                    switch (choises[j]){
+                        case "View Item":
+                            dialog.dismiss();
+                            showSingleCarDialog(i);
+                            break;
+                        case "Edit Item":
+                            dialog.dismiss();
+                            showEditCarDialog(i);
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog= builder.create();
-                dialog.show();
-
+            builder.setNegativeButton("Cancel", (dialogInterface, i1) -> dialog.dismiss());
+            dialog= builder.create();
+            dialog.show();
+            }else{
+                showSingleCarDialog(i);
             }
+
         });
         fb = findViewById(R.id.fb);
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                showAddCarDialog();
-             //   Toast.makeText(VehicleActivity.this, "Fb was clicked", Toast.LENGTH_SHORT).show();
-
-            }
+        fb.setOnClickListener(view -> {
+            showAddCarDialog();
         });
 
     }
@@ -148,69 +125,55 @@ public class VehicleActivity extends DrawerBaseActivity {
         img = dialog.findViewById(R.id.carImageView);
         Button btnSubmit =dialog.findViewById(R.id.btnSubmit);
         Button btnCancel =dialog.findViewById(R.id.btnCancel);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 2);
-            }
+        img.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, 2);
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = carName.getText().toString().trim();
-                String price = carPrice.getText().toString().trim();
-                String description = carDescription.getText().toString().trim();
-                String milage = carMilage.getText().toString().trim();
-                String cartype = carType.getText().toString().trim();
-                boolean nameErr = false, priceErr = false, imageErr = false;
-               if(name.equals("")){
-                   carName.setError("Car name is required");
-                   nameErr = false;
+        btnSubmit.setOnClickListener(view -> {
+            String name = carName.getText().toString().trim();
+            String price = carPrice.getText().toString().trim();
+            String description = carDescription.getText().toString().trim();
+            String milage = carMilage.getText().toString().trim();
+            String cartype = carType.getText().toString().trim();
+            boolean nameErr, priceErr, imageErr;
+           if(name.equals("")){
+               carName.setError("Car name is required");
+               nameErr = false;
+           }else{
+               carName.setError(null);
+               nameErr = true;
+           }
+           if (price.equals("")){
+               carPrice.setError("Car price is required");
+               priceErr = false;
+           }else{
+               carPrice.setError(null);
+               priceErr = true;
+           }
+            imageErr = ImageUri != null;
+           if((nameErr && priceErr && imageErr)){
+               String UniqueId = UUID.randomUUID().toString();
+               loader.StartloadingDialog();
+               Boolean check = AddData(UniqueId,name,price,description,milage,cartype,ImageUri);
+               if (check){
+                   loader.dismissDialog();
+                   dialog.dismiss();
+                   Toast.makeText(VehicleActivity.this, "Data Added Succesfully", Toast.LENGTH_SHORT).show();
                }else{
-                   carName.setError(null);
-                   nameErr = true;
+                   Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                }
-               if (price.equals("")){
-                   carPrice.setError("Car price is required");
-                   priceErr = false;
-               }else{
-                   carPrice.setError(null);
-                   priceErr = true;
-               }
-               if(ImageUri == null){
-                   imageErr = false;
-               } else {
-                   imageErr = true;
-               }
-               if((nameErr && priceErr && imageErr) == true){
-                   String UniqueId = UUID.randomUUID().toString();
-                   loader.StartloadingDialog();
-                   Boolean check = AddData(UniqueId,name,price,description,milage,cartype,ImageUri);
-                   if (check){
-                       loader.dismissDialog();
-                       dialog.dismiss();
-                       Toast.makeText(VehicleActivity.this, "Data Added Succesfully", Toast.LENGTH_SHORT).show();
-                   }else{
-                       Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                   }
-               }
+           }
 
 
-            }
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showEditCarDialog(int i) {
         final Dialog dialog= new Dialog(VehicleActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -232,65 +195,62 @@ public class VehicleActivity extends DrawerBaseActivity {
         carMilage.setText(arr.get(i).getMilage());
         carType.setText(arr.get(i).getFuelType());
         Picasso.get().load(arr.get(i).getImage()).into(img);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 2);
-            }
+        img.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, 2);
         });
             btnSubmit.setText("Update Car");
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String name = carName.getText().toString().trim();
-                String price = carPrice.getText().toString().trim();
-                String description = carDescription.getText().toString().trim();
-                String milage = carMilage.getText().toString().trim();
-                String cartype = carType.getText().toString().trim();
-                boolean nameErr = false, priceErr = false, imageErr = false;
-                if(name.equals("")){
-                    carName.setError("Car name is required");
-                    nameErr = false;
+        btnSubmit.setOnClickListener(view -> {
+            Toast.makeText(VehicleActivity.this, "Toasttt", Toast.LENGTH_SHORT).show();
+            String name = carName.getText().toString().trim();
+            String price = carPrice.getText().toString().trim();
+            String description = carDescription.getText().toString().trim();
+            String milage = carMilage.getText().toString().trim();
+            String cartype = carType.getText().toString().trim();
+            boolean nameErr, priceErr, imageErr;
+            if(name.equals("")){
+                carName.setError("Car name is required");
+                nameErr = false;
+            }else{
+                carName.setError(null);
+                nameErr = true;
+            }
+            if (price.equals("")){
+                carPrice.setError("Car price is required");
+                priceErr = false;
+            }else{
+                carPrice.setError(null);
+                priceErr = true;
+            }
+            imageErr = ImageUri != null;
+            if((nameErr && priceErr && imageErr)){
+                loader.StartloadingDialog();
+                Boolean check = UpdateData(arr.get(i).getId(),name,price,description,milage,cartype,ImageUri);
+                if (check){
+                    loader.dismissDialog();
+                    dialog.dismiss();
+                    Toast.makeText(VehicleActivity.this, "Data Updated Succesfully", Toast.LENGTH_SHORT).show();
                 }else{
-                    carName.setError(null);
-                    nameErr = true;
+                    Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
-                if (price.equals("")){
-                    carPrice.setError("Car price is required");
-                    priceErr = false;
+            }else  if((nameErr && priceErr)){
+                loader.StartloadingDialog();
+                Boolean check = UpdateDataWithoutImage(arr.get(i).getId(),name,price,description,milage,cartype,arr.get(i).getImage());
+                if (check){
+                    loader.dismissDialog();
+                    dialog.dismiss();
+                    Toast.makeText(VehicleActivity.this, "Data Updated Succesfully", Toast.LENGTH_SHORT).show();
                 }else{
-                    carPrice.setError(null);
-                    priceErr = true;
+                    Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
-                if(ImageUri == null){
-                    imageErr = false;
-                } else {
-                    imageErr = true;
-                }
-                if((nameErr && priceErr && imageErr) == true){
-                    loader.StartloadingDialog();
-                    Boolean check = UpdateData(arr.get(i).getId(),name,price,description,milage,cartype,ImageUri);
-                    if (check){
-                        loader.dismissDialog();
-                        dialog.dismiss();
-                        Toast.makeText(VehicleActivity.this, "Data Updated Succesfully", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(VehicleActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                    }
-                }
+            }
 
 
-            }
+
         });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
@@ -298,7 +258,15 @@ public class VehicleActivity extends DrawerBaseActivity {
         final Dialog dialog= new Dialog(VehicleActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+        String Role = (shared.getString("Role", ""));
+
+        if (!Role.equals("Admin")){
+            dialog.setContentView(R.layout.car_view_user);
+        }else{
+
         dialog.setContentView(R.layout.car_view_layout);
+        }
         TextView carName = dialog.findViewById(R.id.SingleCarViewName);
         TextView carPrice = dialog.findViewById(R.id.SingleCarPrice);
         TextView carDescription = dialog.findViewById(R.id.SingleCarDescription);
@@ -308,6 +276,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         Button btnCancel =dialog.findViewById(R.id.btnSingleCarCancel);
         Button btnDelete =dialog.findViewById(R.id.btnSingleCarDelete);
 
+
         carName.setText(arr.get(i).getName());
         carPrice.setText(arr.get(i).getPrice());
         carDescription.setText(arr.get(i).getDescription());
@@ -316,57 +285,35 @@ public class VehicleActivity extends DrawerBaseActivity {
         Picasso.get().load(arr.get(i).getImage()).into(iview);
 
 
+            if(Role.equals("Admin")){
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    Dialog d=new Dialog(VehicleActivity.this);
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        builder = new AlertDialog.Builder(VehicleActivity.this);
+                        builder.setTitle("Are you sure want to delete??");
+                        builder.setIcon(R.drawable.logo);
+                        builder.setCancelable(true);
+                        builder.setPositiveButton("Delete", (dialogInterface, i1) -> Toast.makeText(VehicleActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show());
+                        builder.setNegativeButton("Cancel", (dialogInterface, i12) -> d.dismiss());
+                        d = builder.create();
+                        d.show();
+                    }
+                });
+            }
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            Dialog d=new Dialog(VehicleActivity.this);
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                builder = new AlertDialog.Builder(VehicleActivity.this);
-                builder.setTitle("Are you sure want to delete??");
-                builder.setIcon(R.drawable.logo);
-                builder.setCancelable(true);
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(VehicleActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        d.dismiss();
-                    }
-                });
-                d = builder.create();
-                d.show();
-            }
-        });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
 
     private Boolean AddData(String uniqueId, String name, String price, String description, String milage, String cartype, Uri imageUri) {
         try {
             StorageReference fileref= storage.child(System.currentTimeMillis()+"."+getFileExtention(imageUri));
-            fileref.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Cars car = new Cars(uniqueId,name,uri.toString(),milage,cartype,description,"Active",price);
-                            db.child(uniqueId).setValue(car);
-                        }
-                    });
-                }
-
-            });
+            fileref.putFile(ImageUri).addOnSuccessListener(taskSnapshot -> fileref.getDownloadUrl().addOnSuccessListener(uri -> {
+                Cars car = new Cars(uniqueId,name,uri.toString(),milage,cartype,description,"Active",price);
+                db.child(uniqueId).setValue(car);
+            }));
             return true;
         }catch (Exception ex){
 return false;
@@ -375,19 +322,21 @@ return false;
     private Boolean UpdateData(String uniqueId, String name, String price, String description, String milage, String cartype, Uri imageUri) {
         try {
             StorageReference fileref= storage.child(System.currentTimeMillis()+"."+getFileExtention(imageUri));
-            fileref.putFile(ImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Cars car = new Cars(uniqueId,name,uri.toString(),milage,cartype,description,"Active",price);
-                            db.child(uniqueId).setValue(car);
-                        }
-                    });
-                }
+            fileref.putFile(ImageUri).addOnSuccessListener(taskSnapshot -> fileref.getDownloadUrl().addOnSuccessListener(uri -> {
+                Cars car = new Cars(uniqueId,name,uri.toString(),milage,cartype,description,"Active",price);
+                db.child(uniqueId).setValue(car);
+            }));
+            return true;
+        }catch (Exception ex){
+return false;
+        }
+    }
 
-            });
+    private Boolean UpdateDataWithoutImage(String uniqueId, String name, String price, String description, String milage, String cartype, String image) {
+        try {
+            Cars car = new Cars(uniqueId,name,image,milage,cartype,description,"Active",price);
+            db.child(uniqueId).setValue(car);
+
             return true;
         }catch (Exception ex){
 return false;
@@ -435,6 +384,5 @@ return false;
 
     @Override
     public void onBackPressed() {
-        return;
     }
 }

@@ -1,13 +1,12 @@
 package com.example.vehiclefinanceprocessing;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -24,10 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.jar.Attributes;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -45,7 +41,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_signup);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radioGroup = findViewById(R.id.radioGroup);
         loginbtn = findViewById(R.id.login);
         signup = findViewById(R.id.Signup);
         Email = findViewById(R.id.Email);
@@ -58,74 +54,63 @@ public class SignupActivity extends AppCompatActivity {
         Password = findViewById(R.id.Password);
         CPassword = findViewById(R.id.ConfirmPassword);
         LoadingDialog loader = new LoadingDialog(SignupActivity.this);
-        loginbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i2 = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(i2);
-                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
-                finish();
-            }
+        loginbtn.setOnClickListener(view -> {
+            Intent i2 = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(i2);
+            overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+            finish();
         });
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.startAnimation(AnimationUtils.loadAnimation(SignupActivity.this, R.anim.myanim));
-            }
-        });
-        SignUpSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        signup.setOnClickListener(view -> view.startAnimation(AnimationUtils.loadAnimation(SignupActivity.this, R.anim.myanim)));
+        SignUpSubmit.setOnClickListener(view -> {
 
 
-                SelectedRadio = radioGroup.getCheckedRadioButtonId();
-                String text = Email.getText().toString().trim();
-                String N = Name.getText().toString().trim();
+            SelectedRadio = radioGroup.getCheckedRadioButtonId();
+            String text = Email.getText().toString().trim();
+            String N = Name.getText().toString().trim();
 
-                radioButton= findViewById(SelectedRadio);
-                String PasswordText = Password.getText().toString().trim();
-                String ConfirmPasswordText = CPassword.getText().toString().trim();
-                    db = FirebaseDatabase.getInstance().getReference("User");
-                    String UniqueId = UUID.randomUUID().toString();
-                if (validateForm(text,PasswordText,ConfirmPasswordText,N)){
-                    loader.StartloadingDialog();
-                    db = FirebaseDatabase.getInstance().getReference("User");
-                    Query query = db.orderByChild("emailAddress").equalTo(text);
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+            radioButton= findViewById(SelectedRadio);
+            String PasswordText = Password.getText().toString().trim();
+            String ConfirmPasswordText = CPassword.getText().toString().trim();
+                db = FirebaseDatabase.getInstance().getReference("User");
+                String UniqueId = UUID.randomUUID().toString();
+            if (validateForm(text,PasswordText,ConfirmPasswordText,N)){
+                loader.StartloadingDialog();
+                db = FirebaseDatabase.getInstance().getReference("User");
+                Query query = db.orderByChild("emailAddress").equalTo(text);
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
 
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            loader.dismissDialog();
+                            Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
+                        } else {
+                            boolean adduser=  AddUserData(UniqueId,text,PasswordText,ConfirmPasswordText,N,radioButton.getText().toString().trim());
+                            if (adduser){
                                 loader.dismissDialog();
-                                Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
-                            } else {
-                                Boolean adduser=  AddUserData(UniqueId,text,PasswordText,ConfirmPasswordText,N,radioButton.getText().toString().trim());
-                                if (adduser){
-                                    loader.dismissDialog();
-                                    Intent i2 = new Intent(SignupActivity.this, VehicleActivity.class);
-                                    startActivity(i2);
-                                    overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
-                                    finish();
-                                }else {
-                                    loader.dismissDialog();
-                                    Toast.makeText(SignupActivity.this, "Something Went Wrong", Toast.LENGTH_LONG).show();
-                                }
+                                Intent i2 = new Intent(SignupActivity.this, VehicleActivity.class);
+                                startActivity(i2);
+                                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+                                finish();
+                            }else {
+                                loader.dismissDialog();
+                                Toast.makeText(SignupActivity.this, "Something Went Wrong", Toast.LENGTH_LONG).show();
                             }
                         }
+                    }
 
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            loader.dismissDialog();
-                            throw databaseError.toException(); // don't ignore errors
-                        }
-                    });
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        loader.dismissDialog();
+                        throw databaseError.toException(); // don't ignore errors
+                    }
+                });
 
 
-
-                }
 
             }
+
         });
     }
 

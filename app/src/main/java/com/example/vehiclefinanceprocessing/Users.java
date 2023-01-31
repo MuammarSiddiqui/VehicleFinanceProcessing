@@ -1,5 +1,6 @@
 package com.example.vehiclefinanceprocessing;
 
+@SuppressWarnings("ALL")
 public class Users {
     private  String Id;
     private  String Name;

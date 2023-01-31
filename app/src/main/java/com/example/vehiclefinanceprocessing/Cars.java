@@ -1,6 +1,6 @@
 package com.example.vehiclefinanceprocessing;
 
-import android.net.Uri;
+
 
 public class Cars {
     private  String Id;
