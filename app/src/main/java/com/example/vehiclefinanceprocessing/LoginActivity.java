@@ -102,7 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                                 user = userSnapshot.getValue(Users.class);
                             }
                             assert user != null;
-                            if (user.getPassword().equals(password.getText().toString().trim())){
+                            if (user.getPassword().equals(password.getText().toString().trim()) ){
+                                if (user.getStatus().equals("Active")){
 //                                   SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                                SharedPreferences pref= getSharedPreferences("Users", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = pref.edit();
@@ -115,6 +116,9 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(i2);
                                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                                 finish();
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "User Not Found", Toast.LENGTH_SHORT).show();
+                                }
                             }else{
                                 loader.dismissDialog();
                                 Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
@@ -140,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
     public void logoclicked(View v){
         v.startAnimation(AnimationUtils.loadAnimation(LoginActivity.this, R.anim.myanim));
     }
-
     @Override
     public void onBackPressed() {
     }

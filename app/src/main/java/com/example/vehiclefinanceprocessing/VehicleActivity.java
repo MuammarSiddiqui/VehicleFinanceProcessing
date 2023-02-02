@@ -29,10 +29,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -45,8 +48,9 @@ public class VehicleActivity extends DrawerBaseActivity {
     ImageView img;
     ImageView iview;
     AlertDialog dialog;
-    Uri ImageUri;
+    boolean test = false;
     AlertDialog.Builder builder;
+    Uri ImageUri;
     DatabaseReference db=FirebaseDatabase.getInstance().getReference("Cars");
     StorageReference storage= FirebaseStorage.getInstance().getReference();
     FloatingActionButton fb;
@@ -106,9 +110,7 @@ public class VehicleActivity extends DrawerBaseActivity {
 
         });
         fb = findViewById(R.id.fb);
-        fb.setOnClickListener(view -> {
-            showAddCarDialog();
-        });
+        fb.setOnClickListener(view -> showAddCarDialog());
 
     }
 
@@ -295,7 +297,51 @@ public class VehicleActivity extends DrawerBaseActivity {
                         builder.setTitle("Are you sure want to delete??");
                         builder.setIcon(R.drawable.logo);
                         builder.setCancelable(true);
-                        builder.setPositiveButton("Delete", (dialogInterface, i1) -> Toast.makeText(VehicleActivity.this, "Delete Button Clicked", Toast.LENGTH_SHORT).show());
+                        builder.setPositiveButton("Delete", (dialogInterface, i1) -> {
+                            FirebaseStorage s = FirebaseStorage.getInstance();
+                            StorageReference photoRef = s.getReferenceFromUrl(arr.get(i).getImage());
+                            photoRef.delete().addOnSuccessListener(aVoid -> {
+                                Query applesQuery = db.orderByChild("id").equalTo(arr.get(i).getId());
+                                test = false;
+                                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                            appleSnapshot.getRef().removeValue();
+                                            GetData();
+                                            test = true;
+                                            Toast.makeText(VehicleActivity.this, "Data Deleted Succesfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(VehicleActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }).addOnFailureListener(exception -> {
+
+                            });
+                            if(!test){
+                                Query applesQuery = db.orderByChild("id").equalTo(arr.get(i).getId());
+
+                                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                                            appleSnapshot.getRef().removeValue();
+                                            GetData();
+                                            Toast.makeText(VehicleActivity.this, "Data Deleted Succesfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Toast.makeText(VehicleActivity.this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                                });
                         builder.setNegativeButton("Cancel", (dialogInterface, i12) -> d.dismiss());
                         d = builder.create();
                         d.show();
