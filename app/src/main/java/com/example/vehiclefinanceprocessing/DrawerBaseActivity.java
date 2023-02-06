@@ -50,6 +50,9 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
 
         layout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
+            case  R.id.NavManageAccount:
+                startActivity(new Intent(this,ManageMyAccount.class));
+                break;
             case R.id.NavCars:
 
                 startActivity(new Intent(this,VehicleActivity.class));

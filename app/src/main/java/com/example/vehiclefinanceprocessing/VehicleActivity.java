@@ -205,7 +205,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         });
             btnSubmit.setText("Update Car");
         btnSubmit.setOnClickListener(view -> {
-            Toast.makeText(VehicleActivity.this, "Toasttt", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(VehicleActivity.this, "Toasttt", Toast.LENGTH_SHORT).show();
             String name = carName.getText().toString().trim();
             String price = carPrice.getText().toString().trim();
             String description = carDescription.getText().toString().trim();

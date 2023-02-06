@@ -9,6 +9,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/dealer11"/>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

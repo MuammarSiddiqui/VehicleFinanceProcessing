@@ -15,6 +15,10 @@
         <item android:id="@+id/NavApplications"
             android:title="Applications"
             android:icon="@drawable/applications"/>
+        <item android:id="@+id/NavManageAccount"
+            android:title="Manage My Account"
+            android:icon="@drawable/manage_account"/>
+
         <item android:id="@+id/NavLogout"
             android:title="Log Out"
             android:icon="@drawable/logout"
