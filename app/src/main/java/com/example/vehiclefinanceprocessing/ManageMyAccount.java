@@ -115,6 +115,12 @@ public class ManageMyAccount extends DrawerBaseActivity {
         EditText name = dialog.findViewById(R.id.txtmyName);
         EditText email = dialog.findViewById(R.id.txtmyEmail);
         Button btnUpdate = dialog.findViewById(R.id.btnUpdate);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ManageMyAccount.this, "Update button clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
         Button Cancel = dialog.findViewById(R.id.btnCancel);
         Cancel.setOnClickListener(view -> dialog.dismiss());
         name.setText(user.getName());

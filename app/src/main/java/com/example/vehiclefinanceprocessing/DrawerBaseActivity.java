@@ -37,8 +37,17 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         setSupportActionBar(toolbar);
 
         NavigationView navview = layout.findViewById(R.id.nav_view);
-        navview.setNavigationItemSelectedListener(this);
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
 
+        String Role = (shared.getString("Role", ""));
+        if (Role.equals("User")){
+            navview.getMenu().clear();
+            navview.inflateMenu(R.menu.user_menu);
+        } else if (Role.equals("Dealer")) {
+            navview.getMenu().clear();
+            navview.inflateMenu(R.menu.user_menu);
+        }
+        navview.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toogle =new ActionBarDrawerToggle(this,layout,toolbar,R.string.drawerOpen,R.string.drawerClosed);
         layout.addDrawerListener(toogle);
         toogle.syncState();

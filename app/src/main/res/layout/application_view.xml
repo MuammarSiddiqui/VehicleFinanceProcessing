@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="8dp"
+    app:cardElevation="8dp"
+    android:padding="10dp"
+    android:layout_margin="5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:text="User Name  : "
+            android:textColor="@color/purple_500"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/FinanceUserName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="User Name "
+            android:textColor="@color/purple_500"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Car Name  : "
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                android:textStyle="bold"
+
+                />
+            <TextView
+                android:id="@+id/FinanceCarName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Car Name "
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Car Price  : "
+                android:textStyle="bold"
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:id="@+id/FinanceCarPrice"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Car Price "
+                android:textColor="@color/purple_500"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/ViewUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View User"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:backgroundTint="@color/purple_500"
+                    android:background="@drawable/btnshape"
+                    />
+            </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:gravity="end"
+               android:layout_height="wrap_content">
+               <Button
+
+                   android:id="@+id/ViewCar"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="View Car"
+                   android:textColor="@color/white"
+                   android:backgroundTint="@color/purple_500"
+                   android:background="@drawable/btnshape"
+                   />
+           </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/purple_500"
+            android:background="@drawable/btnshape"
+            android:text="Finance This Application"
+            android:layout_marginHorizontal="20dp"
+            />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

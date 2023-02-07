@@ -47,6 +47,8 @@ public class VehicleActivity extends DrawerBaseActivity {
     ImageSlider imgSlider ;
     ImageView img;
     ImageView iview;
+
+
     AlertDialog dialog;
     boolean test = false;
     AlertDialog.Builder builder;
@@ -75,14 +77,15 @@ public class VehicleActivity extends DrawerBaseActivity {
         images.add(new SlideModel(R.mipmap.slider2,null));
         images.add(new SlideModel(R.mipmap.slider3,null));
         loader = new LoadingDialog(VehicleActivity.this);
-
         imgSlider.setImageList(images, ScaleTypes.CENTER_CROP);
 
 
+        loader.StartloadingDialog();
         myadp  = new CarsListAdapter(VehicleActivity.this,arr);
         gridBinding.CarGridView.setAdapter(myadp);
         
         GetData();
+        loader.dismissDialog();
         gridBinding.CarGridView.setOnItemClickListener((adapterView, view, i, l) -> {
 
             SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
@@ -263,7 +266,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
         String Role = (shared.getString("Role", ""));
 
-        if (!Role.equals("Admin")){
+        if (Role.equals("Dealer")){
             dialog.setContentView(R.layout.car_view_user);
         }else{
 
@@ -278,6 +281,9 @@ public class VehicleActivity extends DrawerBaseActivity {
         Button btnCancel =dialog.findViewById(R.id.btnSingleCarCancel);
         Button btnDelete =dialog.findViewById(R.id.btnSingleCarDelete);
 
+        if(Role.equals("User")){
+            btnDelete.setText("Apply");
+        }
 
         carName.setText(arr.get(i).getName());
         carPrice.setText(arr.get(i).getPrice());
@@ -348,7 +354,14 @@ public class VehicleActivity extends DrawerBaseActivity {
                     }
                 });
             }
-
+            if (Role.equals("User")){
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(VehicleActivity.this, "Apply Button Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         btnCancel.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
     }
@@ -405,10 +418,12 @@ return false;
         }
     }
  private void GetData(){
+
    db.addValueEventListener(new ValueEventListener() {
 
        @Override
        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
 
                arr.clear();
            for (DataSnapshot ds : snapshot.getChildren()){
@@ -417,10 +432,12 @@ return false;
                myadp.notifyDataSetChanged();
 
            }
+
        }
 
        @Override
        public void onCancelled(@NonNull DatabaseError error) {
+           loader.dismissDialog();
            Toast.makeText(VehicleActivity.this, "Error", Toast.LENGTH_SHORT).show();
        }
    });

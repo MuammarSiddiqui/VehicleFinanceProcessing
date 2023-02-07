@@ -12,11 +12,11 @@
         <item android:id="@+id/NavDealers"
             android:title="Dealers"
             android:icon="@drawable/dealer"/>
-        <item android:id="@+id/Financing"
-            android:title="Financing"
-            android:icon="@drawable/applications"/>
         <item android:id="@+id/NavApplications"
-            android:title="Applications"
+            android:title="Appliactions"
+            android:icon="@drawable/applications"/>
+        <item android:id="@+id/Financing"
+            android:title="My Financing"
             android:icon="@drawable/applications"/>
         <item android:id="@+id/NavManageAccount"
             android:title="Manage My Account"
