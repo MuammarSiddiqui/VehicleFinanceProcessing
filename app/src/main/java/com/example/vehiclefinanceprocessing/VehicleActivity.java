@@ -61,6 +61,7 @@ public class VehicleActivity extends DrawerBaseActivity {
 
     ArrayList<Cars> arr = new ArrayList<>();
     CarsListAdapter myadp;
+    String Role;
 
 
     @Override
@@ -89,7 +90,7 @@ public class VehicleActivity extends DrawerBaseActivity {
         gridBinding.CarGridView.setOnItemClickListener((adapterView, view, i, l) -> {
 
             SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
-            String Role = (shared.getString("Role", ""));
+            Role = (shared.getString("Role", ""));
             if(Role.equals("Admin")){
             builder =new AlertDialog.Builder(VehicleActivity.this);
             builder.setTitle(arr.get(i).getName() +" selected");
@@ -113,6 +114,11 @@ public class VehicleActivity extends DrawerBaseActivity {
 
         });
         fb = findViewById(R.id.fb);
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+        Role = (shared.getString("Role", ""));
+        if(!Role.equals("Admin") ){
+            fb.setVisibility(View.GONE);
+        }
         fb.setOnClickListener(view -> showAddCarDialog());
 
     }
@@ -358,11 +364,27 @@ public class VehicleActivity extends DrawerBaseActivity {
                 btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(VehicleActivity.this, "Apply Button Clicked", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        ShowApplyDialog();
                     }
                 });
             }
         btnCancel.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private void ShowApplyDialog() {
+        final Dialog dialog= new Dialog(VehicleActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.applicationmodal);
+        Button btnCancel = dialog.findViewById(R.id.btnCancelFinance);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 

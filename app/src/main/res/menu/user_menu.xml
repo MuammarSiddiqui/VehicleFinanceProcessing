@@ -6,9 +6,6 @@
         <item android:id="@+id/NavCars"
             android:title="Cars"
             android:icon="@drawable/car"/>
-        <item android:id="@+id/NavApplications"
-            android:title="Applications"
-            android:icon="@drawable/applications"/>
         <item android:id="@+id/NavMyApplications"
             android:title="My Applications"
             android:icon="@drawable/applications"/>

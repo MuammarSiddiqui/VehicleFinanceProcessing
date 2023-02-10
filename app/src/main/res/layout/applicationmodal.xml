@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="430dp">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="300dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:minWidth="300dp"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply for financing"
+                android:textColor="@color/purple_500"
+                android:textSize="22sp"
+                android:padding="20sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/FinanceLayout"
+            app:endIconMode="clear_text"
+            app:helperText="Enter Ammount"
+            app:counterMaxLength="8"
+            app:boxStrokeColor="@color/purple_500"
+            app:counterEnabled="true"
+            android:layout_marginBottom="20dp"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/dollar"
+            app:hintTextColor="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Enter Ammount Of Finance"
+
+            >
+
+            <EditText
+                android:id="@+id/Finance"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bank Transaction Details :"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cardNumberLayout"
+            app:endIconMode="clear_text"
+            app:helperText="Enter Master/Visa Card"
+            app:counterMaxLength="12"
+            app:boxStrokeColor="@color/purple_500"
+            app:counterEnabled="true"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/card"
+            app:hintTextColor="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Enter Card Number"
+
+            >
+
+            <EditText
+                android:id="@+id/cardNumber"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cardHolderNameLayout"
+            app:endIconMode="clear_text"
+            app:helperText="Enter Card Holder Name"
+            app:counterMaxLength="20"
+            app:boxStrokeColor="@color/purple_500"
+            app:counterEnabled="true"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/user"
+            app:hintTextColor="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Enter Name"
+
+            >
+
+            <EditText
+                android:id="@+id/cardHolderName"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cardCVVLayout"
+            app:endIconMode="clear_text"
+            app:helperText="Enter Card Holder Name"
+            app:counterMaxLength="3"
+            app:boxStrokeColor="@color/purple_500"
+            app:counterEnabled="true"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/baseline_numbers_24"
+            app:hintTextColor="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Enter CVV"
+
+            >
+
+            <EditText
+                android:id="@+id/cardCVV"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/purple_500"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCancelFinance"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:elevation="5dp"
+                android:layout_margin="5dp"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/btnshape"
+                android:textStyle="bold"/>
+            <Button
+                android:id="@+id/btnSaveFinance"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:elevation="5dp"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                android:textColor="@color/white"
+                android:background="@drawable/btnshape"
+                android:backgroundTint="@color/purple_500"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

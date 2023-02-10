@@ -66,13 +66,13 @@ private  void ShowUserDialog(int i){
     TextView Status = d.findViewById(R.id.SingleUserStatus);
     Button btnCancel = d.findViewById(R.id.btnSingleUserCancel);
     Button btnActive = d.findViewById(R.id.btnSingleUserActive);
-    ImageView iview = d.findViewById(R.id.SingleCarViewImage);
+    ImageView iview = d.findViewById(R.id.SingleUserImage);
 
     Name.setText(arr.get(i).getName());
     Email.setText(arr.get(i).getEmailAddress());
     Role.setText(arr.get(i).getRole());
     Status.setText(arr.get(i).getStatus());
-    if (!arr.get(i).getImage().equals("")) {
+    if (!arr.get(i).getImage().equals("") && iview != null) {
         Picasso.get().load(arr.get(i).getImage()).into(iview);
     }
     if (arr.get(i).getStatus().toLowerCase().equals("active")){
