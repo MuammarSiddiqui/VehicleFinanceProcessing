@@ -12,9 +12,9 @@
         <item android:id="@+id/NavDealers"
             android:title="Dealers"
             android:icon="@drawable/dealer"/>
-        <item android:id="@+id/Financing"
-            android:title="Financing"
-            android:icon="@drawable/applications"/>
+<!--        <item android:id="@+id/Financing"-->
+<!--            android:title="Financing"-->
+<!--            android:icon="@drawable/applications"/>-->
         <item android:id="@+id/NavApplications"
             android:title="Applications"
             android:icon="@drawable/applications"/>

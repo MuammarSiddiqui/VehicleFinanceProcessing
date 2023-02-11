@@ -45,7 +45,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
             navview.inflateMenu(R.menu.user_menu);
         } else if (Role.equals("Dealer")) {
             navview.getMenu().clear();
-            navview.inflateMenu(R.menu.user_menu);
+            navview.inflateMenu(R.menu.dealer_menu);
         }
         navview.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toogle =new ActionBarDrawerToggle(this,layout,toolbar,R.string.drawerOpen,R.string.drawerClosed);
@@ -61,6 +61,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         switch (item.getItemId()){
             case  R.id.NavManageAccount:
                 startActivity(new Intent(this,ManageMyAccount.class));
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
                 break;
             case R.id.NavCars:
 

@@ -1,5 +1,6 @@
 package com.example.vehiclefinanceprocessing;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ApplicationAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = LayoutInflater.from(context).inflate(R.layout.application_view,null);
@@ -55,10 +57,13 @@ public class ApplicationAdapter extends BaseAdapter {
             status.setText("WAITING FOR APPROVAL");
         } else if (arr.get(i).getStatus().equals("Approved")) {
             iview.setImageResource(R.mipmap.approved);
-            status.setText("Approved by" + arr.get(i).getDealerName());
+            status.setTextColor(R.color.Active);
+            status.setText("Approved by " + arr.get(i).getDealerName());
+
         } else if (arr.get(i).getStatus().equals("Rejected")) {
-            iview.setImageResource(R.mipmap.approved);
-            status.setText("Rejected by" + arr.get(i).getDealerName());
+            iview.setImageResource(R.mipmap.rejected);
+            status.setTextColor(R.color.Danger);
+            status.setText("Rejected by " + arr.get(i).getDealerName());
         }
         return view;
     }

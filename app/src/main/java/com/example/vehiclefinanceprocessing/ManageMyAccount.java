@@ -74,7 +74,7 @@ public class ManageMyAccount extends DrawerBaseActivity {
             }
         });
         String Role = (shared.getString("Role", ""));
-        if (Role.equals("Admin")){
+        if (Role.equals("Admin") ){
             MyApplication.setVisibility(View.GONE);
         }
         MyApplication.setOnClickListener(new View.OnClickListener() {

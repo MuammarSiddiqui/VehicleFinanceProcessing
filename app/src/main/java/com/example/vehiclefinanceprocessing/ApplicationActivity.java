@@ -2,9 +2,8 @@ package com.example.vehiclefinanceprocessing;
 
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +22,7 @@ public class ApplicationActivity extends DrawerBaseActivity {
     ActivityApplicationBinding activityBinding, viewbinding;
     ArrayList<Applications> arr = new ArrayList<>();
     DatabaseReference db;
+    DatabaseReference dbApplication=FirebaseDatabase.getInstance().getReference("Applications");
     ApplicationAdapter myadp ;
     AlertDialog dialog;
     String[] choises ={"Approve","Decline"};
@@ -41,29 +41,85 @@ public class ApplicationActivity extends DrawerBaseActivity {
         viewbinding.applicationlist.setAdapter(myadp);
 
         GetData();
-        
-        viewbinding.applicationlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                builder = new AlertDialog.Builder(ApplicationActivity.this);
-                builder.setTitle("PKR "+arr.get(i).getAmountOfFinance() );
-                builder.setSingleChoiceItems(choises, -1, (dialogInterface, j) -> {
-                    switch (choises[j]){
-                        case "Approve":
-                            dialog.dismiss();
-                            Toast.makeText(ApplicationActivity.this, "Approve Cliked", Toast.LENGTH_SHORT).show();
-                            break;
-                        case "Decline":
-                            dialog.dismiss();
-                            Toast.makeText(ApplicationActivity.this, "Decline Cliked", Toast.LENGTH_SHORT).show();
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+        String  Role = (shared.getString("Role", ""));
 
-                    }
-                });
-                builder.setNegativeButton("Cancel", (dialogInterface, i1) -> dialog.dismiss());
-                dialog= builder.create();
-                dialog.show();
-            }
-        });
+            viewbinding.applicationlist.setOnItemClickListener((adapterView, view, i, l) -> {
+                if (Role.equals("Admin")){
+                    builder = new AlertDialog.Builder(ApplicationActivity.this);
+                    builder.setTitle("PKR "+arr.get(i).getAmountOfFinance() );
+                    builder.setSingleChoiceItems(choises, -1, (dialogInterface, j) -> {
+
+                        String  Id = (shared.getString("Id", ""));
+                        String  Name = (shared.getString("Name", ""));
+                        switch (choises[j]){
+                            case "Approve":
+                                dialog.dismiss();
+                                Applications app = arr.get(i);
+                                app.setDealerId(Id);
+                                app.setDealerName(Name);
+                                app.setStatus("Approved");
+                                Apply(app);
+                                Toast.makeText(this, "Approved Successfully", Toast.LENGTH_SHORT).show();
+
+                                GetData();
+                                break;
+                            case "Decline":
+                                dialog.dismiss();
+                                Applications a = arr.get(i);
+                                a.setDealerId(Id);
+                                a.setDealerName(Name);
+                                a.setStatus("Rejected");
+                                Apply(a);
+                                Toast.makeText(this, "Rejected Successfully", Toast.LENGTH_SHORT).show();
+                                GetData();
+
+                                break;
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", (dialogInterface, i1) -> dialog.dismiss());
+                    dialog= builder.create();
+                    dialog.show();
+                }else if (Role.equals("Dealer") && arr.get(i).getStatus().equals("Applied")){
+                    builder = new AlertDialog.Builder(ApplicationActivity.this);
+                    builder.setTitle("PKR "+arr.get(i).getAmountOfFinance() );
+                    builder.setSingleChoiceItems(choises, -1, (dialogInterface, j) -> {
+
+                        String  Id = (shared.getString("Id", ""));
+                        String  Name = (shared.getString("Name", ""));
+                        switch (choises[j]){
+                            case "Approve":
+                                dialog.dismiss();
+                                Applications app = arr.get(i);
+                                app.setDealerId(Id);
+                                app.setDealerName(Name);
+                                app.setStatus("Approved");
+                                Apply(app);
+                                Toast.makeText(this, "Approved Successfully", Toast.LENGTH_SHORT).show();
+
+                                GetData();
+                                break;
+                            case "Decline":
+                                dialog.dismiss();
+                                Applications a = arr.get(i);
+                                a.setDealerId(Id);
+                                a.setDealerName(Name);
+                                a.setStatus("Rejected");
+                                Apply(a);
+                                Toast.makeText(this, "Rejected Successfully", Toast.LENGTH_SHORT).show();
+                                GetData();
+
+                                break;
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", (dialogInterface, i1) -> dialog.dismiss());
+                    dialog= builder.create();
+                    dialog.show();
+                }
+            });
+
     }
 
     private void GetData() {
@@ -88,5 +144,14 @@ public class ApplicationActivity extends DrawerBaseActivity {
                 Toast.makeText(ApplicationActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+    private boolean Apply(Applications app){
+        try {
+            dbApplication.child(app.getId()).setValue(app);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
