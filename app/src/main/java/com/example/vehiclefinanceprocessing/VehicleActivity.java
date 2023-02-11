@@ -54,6 +54,7 @@ public class VehicleActivity extends DrawerBaseActivity {
     AlertDialog.Builder builder;
     Uri ImageUri;
     DatabaseReference db=FirebaseDatabase.getInstance().getReference("Cars");
+    DatabaseReference dbApplication=FirebaseDatabase.getInstance().getReference("Applications");
     StorageReference storage= FirebaseStorage.getInstance().getReference();
     FloatingActionButton fb;
     String[] choises ={"Edit Item","View Item"};
@@ -365,7 +366,7 @@ public class VehicleActivity extends DrawerBaseActivity {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
-                        ShowApplyDialog();
+                        ShowApplyDialog(i);
                     }
                 });
             }
@@ -373,12 +374,33 @@ public class VehicleActivity extends DrawerBaseActivity {
         dialog.show();
     }
 
-    private void ShowApplyDialog() {
+    private void ShowApplyDialog(int i) {
         final Dialog dialog= new Dialog(VehicleActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.applicationmodal);
         Button btnCancel = dialog.findViewById(R.id.btnCancelFinance);
+        Button btnApply= dialog.findViewById(R.id.btnSaveFinance);
+        EditText finance = dialog.findViewById(R.id.Finance);
+        EditText cardNumber = dialog.findViewById(R.id.cardNumber);
+        EditText cardHolder = dialog.findViewById(R.id.cardHolderName);
+        EditText cardCVV = dialog.findViewById(R.id.cardCVV);
+        btnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String UniqueId = UUID.randomUUID().toString();
+                SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+                String Id = (shared.getString("Id", ""));
+                String Name = (shared.getString("Name", ""));
+                if(Apply(UniqueId,Id,Name,"","",arr.get(i).getId(),arr.get(i).getName(),finance.getText().toString().trim(),
+                        cardNumber.toString().trim(),cardHolder.getText().toString().trim(),cardCVV.getText().toString().trim(),"Applied")){
+                    dialog.dismiss();
+                    Toast.makeText(VehicleActivity.this, "Applied Succesfully Please Wait Of Approval", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(VehicleActivity.this, "Something went wrong please try later", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -386,6 +408,16 @@ public class VehicleActivity extends DrawerBaseActivity {
             }
         });
         dialog.show();
+    }
+    
+    private boolean Apply(String uniqueId,String userId, String userName, String dealerId, String dealerName, String vehicleId, String vehicleName, String amountOfFinance, String cardNumber, String cardHolderName, String CVV, String status){
+        try {
+            Applications app = new Applications(uniqueId,userId,userName,dealerId,dealerName,vehicleId,vehicleName,amountOfFinance,cardNumber,cardHolderName,CVV,status);
+            dbApplication.child(uniqueId).setValue(app);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     private Boolean AddData(String uniqueId, String name, String price, String description, String milage, String cartype, Uri imageUri) {

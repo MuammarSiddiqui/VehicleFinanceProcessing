@@ -73,6 +73,10 @@ public class ManageMyAccount extends DrawerBaseActivity {
                 Toast.makeText(ManageMyAccount.this, "Change Password", Toast.LENGTH_SHORT).show();
             }
         });
+        String Role = (shared.getString("Role", ""));
+        if (Role.equals("Admin")){
+            MyApplication.setVisibility(View.GONE);
+        }
         MyApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +142,15 @@ public class ManageMyAccount extends DrawerBaseActivity {
                     String Id = (shared.getString("Id", ""));
                    if ( UpdateData(Id,email.getText().toString().trim(),name.getText().toString().trim(),ImageUri)){
                        dialog.dismiss();
-                       showData(Id);
+                       TextView myName = findViewById(R.id.MyName);
+                       TextView Email = findViewById(R.id.myEmail);
+                       CircleImageView iview =findViewById(R.id.myImage);
+                       if(ImageUri!= null){
+                           iview.setImageURI(ImageUri);
+                       }
+                       myName.setText(name.getText());
+                       Email.setText(email.getText());
+
                        Toast.makeText(ManageMyAccount.this, "Data Updated Succesfully", Toast.LENGTH_SHORT).show();
                    }else{
                        Toast.makeText(ManageMyAccount.this, "Somthing went wrong", Toast.LENGTH_SHORT).show();

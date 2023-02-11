@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putString("Id" ,user.getId());
                                 editor.putString("Role" ,user.getRole());
                                 editor.putString("Email" ,user.getEmailAddress());
-                                editor.putString("Name",user.getRole());
+                                editor.putString("Name",user.getName());
                                 editor.apply();
                                Intent i2 = new Intent(LoginActivity.this, VehicleActivity.class);
                                 startActivity(i2);
