@@ -1,7 +1,10 @@
 package com.example.vehiclefinanceprocessing;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,9 @@ public class ApplicationActivity extends DrawerBaseActivity {
     ArrayList<Applications> arr = new ArrayList<>();
     DatabaseReference db;
     ApplicationAdapter myadp ;
+    AlertDialog dialog;
+    String[] choises ={"Approve","Decline"};
+    AlertDialog.Builder builder ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,29 @@ public class ApplicationActivity extends DrawerBaseActivity {
         viewbinding.applicationlist.setAdapter(myadp);
 
         GetData();
+        
+        viewbinding.applicationlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                builder = new AlertDialog.Builder(ApplicationActivity.this);
+                builder.setTitle("PKR "+arr.get(i).getAmountOfFinance() );
+                builder.setSingleChoiceItems(choises, -1, (dialogInterface, j) -> {
+                    switch (choises[j]){
+                        case "Approve":
+                            dialog.dismiss();
+                            Toast.makeText(ApplicationActivity.this, "Approve Cliked", Toast.LENGTH_SHORT).show();
+                            break;
+                        case "Decline":
+                            dialog.dismiss();
+                            Toast.makeText(ApplicationActivity.this, "Decline Cliked", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", (dialogInterface, i1) -> dialog.dismiss());
+                dialog= builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void GetData() {

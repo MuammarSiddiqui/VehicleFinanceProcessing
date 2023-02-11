@@ -393,7 +393,7 @@ public class VehicleActivity extends DrawerBaseActivity {
                 String Id = (shared.getString("Id", ""));
                 String Name = (shared.getString("Name", ""));
                 if(Apply(UniqueId,Id,Name,"","",arr.get(i).getId(),arr.get(i).getName(),finance.getText().toString().trim(),
-                        cardNumber.toString().trim(),cardHolder.getText().toString().trim(),cardCVV.getText().toString().trim(),"Applied")){
+                        cardNumber.getText().toString().trim(),cardHolder.getText().toString().trim(),cardCVV.getText().toString().trim(),"Applied")){
                     dialog.dismiss();
                     Toast.makeText(VehicleActivity.this, "Applied Succesfully Please Wait Of Approval", Toast.LENGTH_SHORT).show();
                 }else{
