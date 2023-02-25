@@ -35,14 +35,20 @@ public class ApplicationActivity extends DrawerBaseActivity {
         activityBinding =viewbinding= ActivityApplicationBinding.inflate(getLayoutInflater());
         db = FirebaseDatabase.getInstance().getReference("Applications");
         setContentView(activityBinding.getRoot());
-        AllocateTitle("Applications");
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+        String  Role = (shared.getString("Role", ""));
+        if (Role.equals("User")){
+            AllocateTitle("My Applications");
+        }
+       else {
+            AllocateTitle("Applications");
+        }
 
         myadp  = new ApplicationAdapter(ApplicationActivity.this,arr);
         viewbinding.applicationlist.setAdapter(myadp);
 
         GetData();
-        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
-        String  Role = (shared.getString("Role", ""));
+
 
             viewbinding.applicationlist.setOnItemClickListener((adapterView, view, i, l) -> {
                 if (Role.equals("Admin")){
@@ -123,6 +129,9 @@ public class ApplicationActivity extends DrawerBaseActivity {
     }
 
     private void GetData() {
+        SharedPreferences shared = getSharedPreferences("Users", MODE_PRIVATE);
+        String Role = (shared.getString("Role", ""));
+        String Id = (shared.getString("Id", ""));
         db.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -130,11 +139,23 @@ public class ApplicationActivity extends DrawerBaseActivity {
 
 
                 arr.clear();
-                for (DataSnapshot ds : snapshot.getChildren()){
-                    Applications app = ds.getValue(Applications.class);
-                    arr.add(app);
-                    myadp.notifyDataSetChanged();
+                if(!Role.equals("Users")) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Applications app = ds.getValue(Applications.class);
+                        arr.add(app);
+                        myadp.notifyDataSetChanged();
 
+                    }
+                }
+                else{
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Applications app = ds.getValue(Applications.class);
+                        if(app.getUserId().equals(Id)){
+                            arr.add(app);
+                        }
+                        myadp.notifyDataSetChanged();
+
+                    }
                 }
 
             }

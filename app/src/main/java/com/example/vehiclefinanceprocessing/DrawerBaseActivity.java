@@ -81,6 +81,13 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
 
                 break;
+            case R.id.NavMyApplications:
+
+                startActivity(new Intent(this,ApplicationActivity.class));
+
+                overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
+
+                break;
             case R.id.NavDealers:
                 startActivity(new Intent(this,DealersActivity.class));
                 overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );

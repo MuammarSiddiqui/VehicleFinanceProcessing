@@ -1,6 +1,7 @@
 package com.example.vehiclefinanceprocessing;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -34,7 +35,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ManageMyAccount extends DrawerBaseActivity {
     Users user = new Users();
-    Users u;
+    Users u;    boolean check = false;
+
     LoadingDialog loader;
     DatabaseReference db;
     StorageReference storage= FirebaseStorage.getInstance().getReference();
@@ -70,17 +72,17 @@ public class ManageMyAccount extends DrawerBaseActivity {
         ChangePwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ManageMyAccount.this, "Change Password", Toast.LENGTH_SHORT).show();
+                ShowChangePwdDialog();
             }
         });
         String Role = (shared.getString("Role", ""));
-        if (Role.equals("Admin") ){
+        if (Role.equals("Admin") || Role.equals("Dealer")){
             MyApplication.setVisibility(View.GONE);
         }
         MyApplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ManageMyAccount.this, "My Applications was clicked", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ManageMyAccount.this,ApplicationActivity.class));
             }
         });
     }
@@ -174,6 +176,70 @@ public class ManageMyAccount extends DrawerBaseActivity {
         });
         dialog.show();
     }
+    private  void ShowChangePwdDialog(){
+        dialog= new Dialog(ManageMyAccount.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.changepasswordview);
+        EditText oldPwd = dialog.findViewById(R.id.olgPassword);
+        EditText newpwd = dialog.findViewById(R.id.newPassword);
+        EditText Cnew = dialog.findViewById(R.id.CnewPassword);
+        TextInputLayout clayout = dialog.findViewById(R.id.CnewpwdLayout);
+        TextInputLayout newlayout = dialog.findViewById(R.id.newpwdLayout);
+        TextInputLayout oldpwdLayout = dialog.findViewById(R.id.pwdLayout);
+        Button btnUpdate = dialog.findViewById(R.id.btnChangePwd);
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!oldPwd.getText().toString().trim().equals(user.getPassword())){
+                    oldpwdLayout.setError("Old Password Does Not Match");
+                    check= true;
+                }else{
+                    oldpwdLayout.setError(null);
+                   if (newpwd.length()< 8){
+                       newlayout.setError("Minimum 8 Characters Required");
+                       check = true;
+                   }else{
+                       newlayout.setError(null);
+                       check = false;
+                       if (!newpwd.getText().toString().trim().equals(Cnew.getText().toString().trim())){
+                           clayout.setError("Confirm Password Doesnot Match");
+                           check = true;
+                       }else{
+                           check= false;
+                           clayout.setError(null);
+                       }
+                   }
+                }
+
+                if(!check){
+                    btnUpdate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                           try {
+                               user.setPassword(newpwd.getText().toString().trim());
+                               db.child(user.getId()).setValue(user);
+                               dialog.dismiss();
+                               Toast.makeText(ManageMyAccount.this, "Password Changed Succesfully", Toast.LENGTH_SHORT).show();
+                           }catch(Exception e){
+                               dialog.dismiss();
+                               Toast.makeText(ManageMyAccount.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                           }
+                        }
+                    });
+                }
+
+
+            }
+        });
+        Button Cancel = dialog.findViewById(R.id.btnCancel);
+        Cancel.setOnClickListener(view -> dialog.dismiss());
+
+
+        dialog.show();
+    }
 
     private boolean UpdateData(String Id,String Email,String Name,Uri imageUri) {
        try {
@@ -220,6 +286,7 @@ public class ManageMyAccount extends DrawerBaseActivity {
             return  false;
        }
     }
+
     public  Boolean validateForm(String text, String N, Dialog dialog){
         TextInputLayout emaillayout,namelayout;
         emaillayout = dialog.findViewById(R.id.useremaillayout);
