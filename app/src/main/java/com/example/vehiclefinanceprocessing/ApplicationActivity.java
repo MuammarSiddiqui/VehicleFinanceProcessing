@@ -49,7 +49,7 @@ public class ApplicationActivity extends DrawerBaseActivity {
 
         GetData();
 
-
+x
             viewbinding.applicationlist.setOnItemClickListener((adapterView, view, i, l) -> {
                 if (Role.equals("Admin")){
                     builder = new AlertDialog.Builder(ApplicationActivity.this);
